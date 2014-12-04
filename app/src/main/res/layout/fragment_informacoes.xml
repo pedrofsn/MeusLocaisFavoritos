@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- deixei um linear a mais pra não ter que controlar a visibilidade de cada elemento -->
+    <LinearLayout
+        android:background="@drawable/drawable_card"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutBlocoInformacoes"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_marginRight="60dp"
+                android:text="teste"
+                android:textSize="16sp"
+                android:id="@+id/textViewTitulo" />
+
+            <TextView
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:text="teste"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDescricao" />
+
+            <TextView
+                android:textSize="16sp"
+                android:layout_width="match_parent"
+                android:text="teste"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewDistancia" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageViewCheckin"
+        android:src="@drawable/ic_checkin"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewIr"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="6dp"
+        android:src="@android:drawable/ic_menu_directions"
+        android:layout_gravity="right|bottom" />
+</FrameLayout>
