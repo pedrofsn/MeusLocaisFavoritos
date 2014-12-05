@@ -46,19 +46,19 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView textViewNome = ((TextView) view.findViewById(R.id.textViewNome));
         TextView textViewLatitudeLongitude = ((TextView) view.findViewById(R.id.textViewLatitudeLongitude));
 
-
         if (nome == null || nome.equals("")) {
             nome = "Sem nome";
+            //marker.hideInfoWindow();
         }
 
         textViewNome.setText(nome);
-
+/*
         if (latitudeLongitude != null) {
             textViewLatitudeLongitude.setText(latitudeLongitude);
         } else {
             textViewLatitudeLongitude.setText("");
         }
-
+*/
 
     }
 }

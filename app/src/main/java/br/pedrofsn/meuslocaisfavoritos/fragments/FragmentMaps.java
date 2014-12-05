@@ -38,7 +38,7 @@ import pedrofsn.meus.locais.favoritos.R;
 /**
  * Created by pedro.sousa on 03/12/2014.
  */
-public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, AdapterView.OnItemSelectedListener {
+public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickListener, GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, AdapterView.OnItemSelectedListener {
 
     private GoogleMap map;
     private Spinner spinnerMapMode;
@@ -110,6 +110,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         // Listeners
         map.setOnMapLongClickListener(this);
         map.setOnMapClickListener(this);
+        map.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             ((ActivityMain) getActivity()).hideInfoLocation(false);
         }
 
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(latLng)) {
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).getMarkerSelecionado().remove();
         }
 
@@ -226,4 +227,9 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         return poly;
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+//        marker.hideInfoWindow();
+        return false;
+    }
 }

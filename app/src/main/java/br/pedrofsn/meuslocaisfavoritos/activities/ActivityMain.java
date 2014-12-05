@@ -38,12 +38,23 @@ public class ActivityMain extends ActionBarActivity {
 
     private LatLng minhaLocalizacao;
 
+    private Local local = new Local();
+
+    public Local getLocal() {
+        return local;
+    }
+
+    public void setLocal(Local local) {
+        this.local = local;
+    }
+
     public void setMinhaLocalizacao(LatLng minhaLocalizacao) {
         this.minhaLocalizacao = minhaLocalizacao;
     }
 
     public void setDirectionResponse(DirectionResponse directionResponse) {
         this.directionResponse = directionResponse;
+        this.markerSelecionado.setPosition(directionResponse.getLatLngDestino());
     }
 
     public boolean desenharRota() {

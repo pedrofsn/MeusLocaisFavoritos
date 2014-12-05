@@ -18,7 +18,6 @@ import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.dialogs.DialogFragmentCheckin;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
-import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import pedrofsn.meus.locais.favoritos.R;
 
@@ -36,8 +35,6 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     private ProgressBar progressBar;
 
     private DirectionResponse directionResponse;
-
-    private Local local;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,9 +89,8 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
 
-            local = new Local();
-            local.setLatLng(directionResponse.getLatLngDestino());
-            local.setEndereco(directionResponse.getEnderecoDoDestino());
+            ((ActivityMain) getActivity()).getLocal().setLatLng(directionResponse.getLatLngDestino());
+            ((ActivityMain) getActivity()).getLocal().setEndereco(directionResponse.getEnderecoDoDestino());
 
             textViewTitulo.setText("");
 
@@ -102,7 +98,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
                 textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
 
             if (directionResponse.getEnderecoDoDestino() != null) {
-                textViewDescricao.setText(local.getEndereco());
+                textViewDescricao.setText(((ActivityMain) getActivity()).getLocal().getEndereco());
             } else {
                 textViewDescricao.setText("Carregando endereço...");
             }
@@ -138,16 +134,16 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
 
     @Override
     public void salvarEndereco(String nome) {
-        local.setNome(nome);
-        Log.e("teste", "Latitude: " + local.getLatitude());
-        Log.e("teste", "Longitude: " + local.getLongitude());
-        if (new DAOLocal(getActivity()).createLocal(local)) {
+        ((ActivityMain) getActivity()).getLocal().setNome(nome);
+        Log.e("teste", "Latitude: " + ((ActivityMain) getActivity()).getLocal().getLatitude());
+        Log.e("teste", "Longitude: " + ((ActivityMain) getActivity()).getLocal().getLongitude());
+        if (new DAOLocal(getActivity()).createLocal(((ActivityMain) getActivity()).getLocal())) {
             Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Ops... a localização no foi salva.", Toast.LENGTH_SHORT).show();
         }
 
-        Log.e("teste", "Existe? " + new DAOLocal(getActivity()).existsLocal(local.getLatLng()));
+        Log.e("teste", "Existe? " + new DAOLocal(getActivity()).existsLocal(((ActivityMain) getActivity()).getLocal().getLatLng()));
     }
 
     private void chamarDialogCheckin() {
