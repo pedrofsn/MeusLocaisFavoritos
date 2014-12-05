@@ -3,6 +3,7 @@ package br.pedrofsn.meuslocaisfavoritos.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,7 @@ import android.widget.Toast;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.dialogs.DialogFragmentCheckin;
-import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDistancia;
-import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaEndereco;
+import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
@@ -25,7 +25,7 @@ import pedrofsn.meus.locais.favoritos.R;
 /**
  * Created by pedro.sousa on 03/12/2014.
  */
-public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaEndereco, IAsyncTaskConsultaDistancia, ICallbackDialogCheckin, View.OnClickListener {
+public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaDirection, ICallbackDialogCheckin, View.OnClickListener {
 
     private LinearLayout linearLayoutBlocoInformacoes;
     private TextView textViewTitulo;
@@ -36,6 +36,8 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
     private ProgressBar progressBar;
 
     private DirectionResponse directionResponse;
+
+    private Local local;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,48 +66,55 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
         exibirInformacoes(false);
     }
 
-    private void exibirInformacoes(boolean exibir) {
-        if (exibir) {
-            linearLayoutBlocoInformacoes.setVisibility(View.VISIBLE);
-            imageViewCheckin.setVisibility(View.VISIBLE);
-            imageViewIr.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
-        } else {
-            linearLayoutBlocoInformacoes.setVisibility(View.GONE);
-            imageViewCheckin.setVisibility(View.GONE);
-            imageViewIr.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-        }
+    private void exibirInformacoes(final boolean exibir) {
+        getActivity().runOnUiThread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        if (exibir) {
+                            linearLayoutBlocoInformacoes.setVisibility(View.VISIBLE);
+                            imageViewCheckin.setVisibility(View.VISIBLE);
+                            imageViewIr.setVisibility(View.VISIBLE);
+                            progressBar.setVisibility(View.GONE);
+                        } else {
+                            linearLayoutBlocoInformacoes.setVisibility(View.GONE);
+                            imageViewCheckin.setVisibility(View.GONE);
+                            imageViewIr.setVisibility(View.GONE);
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+        );
     }
 
     @Override
-    public void setDistancia(DirectionResponse directionResponse) {
+    public void setDirection(DirectionResponse directionResponse) {
         if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
-            textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
+
+            local = new Local();
+            local.setLatLng(directionResponse.getLatLngDestino());
+            local.setEndereco(directionResponse.getEnderecoDoDestino());
+
+            textViewTitulo.setText("");
+
+            if (directionResponse.getTextDistancia() != null)
+                textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
+
+            if (directionResponse.getEnderecoDoDestino() != null) {
+                textViewDescricao.setText(local.getEndereco());
+            } else {
+                textViewDescricao.setText("Carregando endereço...");
+            }
+
             exibirInformacoes(true);
             this.directionResponse = directionResponse;
         }
     }
 
     @Override
-    public void getEnderecoCarregado(Local local) {
-        if (local != null) {
-
-            if (local.getEndereco() != null && !local.getEndereco().equals(""))
-                textViewTitulo.setText(local.getEndereco());
-
-            if (!local.getDescricaoDoEndereco().equals("null - null") && !local.getDescricaoDoEndereco().equals("-"))
-                textViewDescricao.setText(local.getDescricaoDoEndereco());
-
-            if (((ActivityMain) getActivity()).getLocalSelecionado() != null) {
-                ((ActivityMain) getActivity()).getLocalSelecionado().setEndereco(local.getEndereco());
-                ((ActivityMain) getActivity()).getLocalSelecionado().setCidade(local.getCidade());
-                ((ActivityMain) getActivity()).getLocalSelecionado().setPais(local.getPais());
-            }
-
-            exibirInformacoes(true);
-        }
+    public void processandoAsyncTaskDirection() {
+        exibirInformacoes(false);
     }
 
     @Override
@@ -129,9 +138,16 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
 
     @Override
     public void salvarEndereco(String nome) {
-        Local local = ((ActivityMain) getActivity()).getLocalSelecionado();
         local.setNome(nome);
-        new DAOLocal(getActivity()).createLocal(local);
+        Log.e("teste", "Latitude: " + local.getLatitude());
+        Log.e("teste", "Longitude: " + local.getLongitude());
+        if (new DAOLocal(getActivity()).createLocal(local)) {
+            Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Ops... a localização no foi salva.", Toast.LENGTH_SHORT).show();
+        }
+
+        Log.e("teste", "Existe? " + new DAOLocal(getActivity()).existsLocal(local.getLatLng()));
     }
 
     private void chamarDialogCheckin() {

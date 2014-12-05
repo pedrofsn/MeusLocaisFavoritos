@@ -17,20 +17,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDistancia;
+import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
-import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
 
 /**
  * Created by pedrofsn on 04/12/2014.
  */
-public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, DirectionResponse> {
+public class AsyncTaskConsultaDirection extends AsyncTask<Void, Void, DirectionResponse> {
 
-    private IAsyncTaskConsultaDistancia callback;
+    private IAsyncTaskConsultaDirection callback;
     private LatLng pontoDeOrigem;
     private LatLng pontoDeDestino;
 
-    public AsyncTaskConsultaDistancia(IAsyncTaskConsultaDistancia callback, LatLng pontoDeOrigem, LatLng pontoDeDestino) {
+    public AsyncTaskConsultaDirection(IAsyncTaskConsultaDirection callback, LatLng pontoDeOrigem, LatLng pontoDeDestino) {
         this.callback = callback;
         this.pontoDeOrigem = pontoDeOrigem;
         this.pontoDeDestino = pontoDeDestino;
@@ -38,6 +37,7 @@ public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, DirectionR
 
     @Override
     protected DirectionResponse doInBackground(Void... voids) {
+        callback.processandoAsyncTaskDirection();
         return getDirectionResponse(pontoDeOrigem, pontoDeDestino);
     }
 
@@ -45,7 +45,7 @@ public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, DirectionR
     protected void onPostExecute(DirectionResponse result) {
         super.onPostExecute(result);
         if (result != null)
-            callback.setDistancia(result);
+            callback.setDirection(result);
     }
 
     public DirectionResponse getDirectionResponse(LatLng start, LatLng end /*, String mode */) {

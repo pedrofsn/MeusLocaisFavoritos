@@ -47,6 +47,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     private DAOLocal daoLocal;
     private Polyline polyline;
 
+    private DirectionResponse ultimoDirectionResponse;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,10 +107,9 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
         map.setInfoWindowAdapter(new AdapterCustomInfoWindow(getActivity()));
 
+        // Listeners
         map.setOnMapLongClickListener(this);
         map.setOnMapClickListener(this);
-
-        //map.setOnMyLocationChangeListener();
     }
 
     @Override
@@ -168,7 +169,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     public void desenharRotas(DirectionResponse directionResponse) {
-        if (directionResponse != null) {
+        if (directionResponse != null && ultimoDirectionResponse != directionResponse) {
             if (polyline != null) {
                 polyline.remove();
             }
@@ -186,6 +187,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             polyline = map.addPolyline(rectOptions);
             polyline.setColor(Color.BLUE);
             map.setMyLocationEnabled(true);
+
+            ultimoDirectionResponse = directionResponse;
         }
     }
 
@@ -222,4 +225,5 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
         return poly;
     }
+
 }

@@ -17,8 +17,7 @@ import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
-import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDistancia;
-import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaEndereco;
+import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDirection;
 import pedrofsn.meus.locais.favoritos.R;
 
 /**
@@ -31,15 +30,16 @@ public class ActivityMain extends ActionBarActivity {
     private FragmentMaps fragmentMaps;
     private FragmentInformacoes fragmentInformacoes;
 
-    private LatLng minhaLocalizacao;
     private Marker markerSelecionado;
 
     private Local localSelecionado;
 
     private DirectionResponse directionResponse;
 
-    public Local getLocalSelecionado() {
-        return localSelecionado;
+    private LatLng minhaLocalizacao;
+
+    public void setMinhaLocalizacao(LatLng minhaLocalizacao) {
+        this.minhaLocalizacao = minhaLocalizacao;
     }
 
     public void setDirectionResponse(DirectionResponse directionResponse) {
@@ -94,9 +94,9 @@ public class ActivityMain extends ActionBarActivity {
             localSelecionado = new Local();
         }
 
-        localSelecionado.setLatitude(markerSelecionado.getPosition().latitude);
-        localSelecionado.setLongitude(markerSelecionado.getPosition().longitude);
-        realizarConsultas();
+        localSelecionado.setLatLng(markerSelecionado.getPosition());
+
+        new AsyncTaskConsultaDirection(fragmentInformacoes, new LatLng(minhaLocalizacao.latitude, minhaLocalizacao.longitude), markerSelecionado.getPosition()).execute();
     }
 
     public boolean isInfoLocationVisible() {
@@ -111,16 +111,8 @@ public class ActivityMain extends ActionBarActivity {
         }
     }
 
-    private void realizarConsultas() {
-        new AsyncTaskConsultaEndereco(this, fragmentInformacoes, markerSelecionado).execute();
-        new AsyncTaskConsultaDistancia(fragmentInformacoes, minhaLocalizacao, markerSelecionado.getPosition()).execute();
-    }
-
-    public void setMinhaLocalizacao(LatLng minhaLocalizacao) {
-        this.minhaLocalizacao = minhaLocalizacao;
-    }
-
     public Marker getMarkerSelecionado() {
         return markerSelecionado;
     }
+
 }

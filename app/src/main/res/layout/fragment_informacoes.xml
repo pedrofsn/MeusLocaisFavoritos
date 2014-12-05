@@ -25,21 +25,18 @@
                 android:layout_height="wrap_content"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                android:text="teste"
                 android:textSize="16sp"
                 android:id="@+id/textViewTitulo" />
 
             <TextView
                 android:textSize="16sp"
                 android:layout_width="match_parent"
-                android:text="teste"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewDescricao" />
 
             <TextView
                 android:textSize="16sp"
                 android:layout_width="match_parent"
-                android:text="teste"
                 android:layout_height="wrap_content"
                 android:id="@+id/textViewDistancia" />
         </LinearLayout>

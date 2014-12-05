@@ -39,17 +39,19 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        String createTable = "CREATE TABLE " + TABELA_LOCAIS_FAVORITOS +
-                "(" + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUNA_ENDERECO + " STRING, " +
-                COLUNA_CIDADE + " STRING, " +
-                COLUNA_PAIS + " STRING, " +
-                COLUNA_NOME + " STRING, " +
-                COLUNA_LATITUDE + " NUMBER NOT NULL, " +
-                COLUNA_LONGITUDE + " NUMBER NOT NULL, " +
-                COLUNA_DATA_CHECKIN + " NUMBER NOT NULL " +
-                ");";
-        database.execSQL(createTable);
+        synchronized (database) {
+            String createTable = "CREATE TABLE " + TABELA_LOCAIS_FAVORITOS +
+                    "(" + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUNA_ENDERECO + " STRING, " +
+                    COLUNA_CIDADE + " STRING, " +
+                    COLUNA_PAIS + " STRING, " +
+                    COLUNA_NOME + " STRING, " +
+                    COLUNA_LATITUDE + " NUMBER NOT NULL, " +
+                    COLUNA_LONGITUDE + " NUMBER NOT NULL, " +
+                    COLUNA_DATA_CHECKIN + " NUMBER NOT NULL " +
+                    ");";
+            database.execSQL(createTable);
+        }
     }
 
     @Override
@@ -60,21 +62,24 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     @Override
     public boolean createLocal(Local local) {
         boolean isSucesso = true;
-        try {
-            Date date = new Date();
-            SQLiteDatabase db = this.getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put(COLUNA_ENDERECO, local.getEndereco());
-            values.put(COLUNA_CIDADE, local.getCidade());
-            values.put(COLUNA_PAIS, local.getPais());
-            values.put(COLUNA_NOME, local.getNome());
-            values.put(COLUNA_LATITUDE, local.getLatitude());
-            values.put(COLUNA_LONGITUDE, local.getLongitude());
-            values.put(COLUNA_DATA_CHECKIN, date.getTime());
-            db.insert(TABELA_LOCAIS_FAVORITOS, null, values);
-        } catch (Exception e) {
-            isSucesso = false;
-            e.printStackTrace();
+        SQLiteDatabase database = this.getWritableDatabase();
+
+        synchronized (database) {
+            try {
+                Date date = new Date();
+                ContentValues values = new ContentValues();
+                values.put(COLUNA_ENDERECO, local.getEndereco());
+                values.put(COLUNA_CIDADE, local.getCidade());
+                values.put(COLUNA_PAIS, local.getPais());
+                values.put(COLUNA_NOME, local.getNome());
+                values.put(COLUNA_LATITUDE, local.getLatitude());
+                values.put(COLUNA_LONGITUDE, local.getLongitude());
+                values.put(COLUNA_DATA_CHECKIN, date.getTime());
+                database.insert(TABELA_LOCAIS_FAVORITOS, null, values);
+            } catch (Exception e) {
+                isSucesso = false;
+                e.printStackTrace();
+            }
         }
 
         return isSucesso;
@@ -82,58 +87,62 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     @Override
     public List<Local> readLocal() {
-        SQLiteDatabase database = null;
+        SQLiteDatabase database = getReadableDatabase();
         Cursor cursor = null;
-        try {
-            List<Local> listaLocais = new ArrayList<Local>();
-            database = getReadableDatabase();
-            cursor = database.query(TABELA_LOCAIS_FAVORITOS, new String[]{
-                    COLUNA_ID,
-                    COLUNA_ENDERECO,
-                    COLUNA_CIDADE,
-                    COLUNA_PAIS,
-                    COLUNA_NOME,
-                    COLUNA_LATITUDE,
-                    COLUNA_DATA_CHECKIN,
-                    COLUNA_LONGITUDE}, null, null, null, null, COLUNA_ID);
 
-            if (cursor.moveToFirst()) do {
-                Local local = new Local();
-                local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
-                local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
-                local.setCidade(cursor.getString(cursor.getColumnIndex(COLUNA_CIDADE)));
-                local.setPais(cursor.getString(cursor.getColumnIndex(COLUNA_PAIS)));
-                local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
-                local.setLatitude(cursor.getDouble(cursor.getColumnIndex(COLUNA_LATITUDE)));
-                local.setLongitude(cursor.getDouble(cursor.getColumnIndex(COLUNA_LONGITUDE)));
-                local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
-                listaLocais.add(local);
-            } while (cursor.moveToNext());
-            cursor.close();
-            database.close();
-            return listaLocais;
-        } catch (Exception e) {
-            if (cursor != null) cursor.close();
-            if (database != null) database.close();
-            throw e;
+        synchronized (database) {
+            try {
+                List<Local> listaLocais = new ArrayList<Local>();
+                cursor = database.query(TABELA_LOCAIS_FAVORITOS, new String[]{
+                        COLUNA_ID,
+                        COLUNA_ENDERECO,
+                        COLUNA_CIDADE,
+                        COLUNA_PAIS,
+                        COLUNA_NOME,
+                        COLUNA_LATITUDE,
+                        COLUNA_DATA_CHECKIN,
+                        COLUNA_LONGITUDE}, null, null, null, null, COLUNA_ID);
+
+                if (cursor.moveToFirst()) do {
+                    Local local = new Local();
+                    local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
+                    local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
+                    local.setCidade(cursor.getString(cursor.getColumnIndex(COLUNA_CIDADE)));
+                    local.setPais(cursor.getString(cursor.getColumnIndex(COLUNA_PAIS)));
+                    local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
+                    local.setLatLng(new LatLng(cursor.getDouble(cursor.getColumnIndex(COLUNA_LATITUDE)), cursor.getDouble(cursor.getColumnIndex(COLUNA_LONGITUDE))));
+                    local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
+                    listaLocais.add(local);
+                } while (cursor.moveToNext());
+                cursor.close();
+                database.close();
+                return listaLocais;
+            } catch (Exception e) {
+                if (cursor != null) cursor.close();
+                if (database != null) database.close();
+                throw e;
+            }
         }
+
     }
 
     @Override
     public boolean deleteLocal(long id) {
         boolean isSucesso = true;
-        SQLiteDatabase database = null;
-        try {
-            database = getWritableDatabase();
-            int rowsDeleted = database.delete(TABELA_LOCAIS_FAVORITOS, " ID = ?", new String[]{String.valueOf(id)});
-            if (rowsDeleted == 0) {
-                throw new RuntimeException("Failed to delete row. The database.delete() method informed 0 rows were affected.");
+        SQLiteDatabase database = getWritableDatabase();
+
+        synchronized (database) {
+            try {
+                int rowsDeleted = database.delete(TABELA_LOCAIS_FAVORITOS, " ID = ?", new String[]{String.valueOf(id)});
+                if (rowsDeleted == 0) {
+                    throw new RuntimeException("Failed to delete row. The database.delete() method informed 0 rows were affected.");
+                }
+                database.close();
+            } catch (Exception e) {
+                if (database != null) database.close();
+                e.printStackTrace();
+                isSucesso = false;
             }
-            database.close();
-        } catch (Exception e) {
-            if (database != null) database.close();
-            e.printStackTrace();
-            isSucesso = false;
         }
 
         return isSucesso;
@@ -141,8 +150,13 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     @Override
     public boolean existsLocal(LatLng latLng) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor mCursor = db.rawQuery("select * from " + TABELA_LOCAIS_FAVORITOS + " where " + COLUNA_LATITUDE + " like '" + String.valueOf(latLng.latitude) + "' and " + COLUNA_LONGITUDE + " like '" + String.valueOf(latLng.longitude) + "'", null);
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor mCursor;
+
+        synchronized (database) {
+            mCursor = database.rawQuery("select * from " + TABELA_LOCAIS_FAVORITOS + " where " + COLUNA_LATITUDE + " like '" + String.valueOf(latLng.latitude) + "' and " + COLUNA_LONGITUDE + " like '" + String.valueOf(latLng.longitude) + "'", null);
+        }
+
         return mCursor.moveToFirst();
     }
 

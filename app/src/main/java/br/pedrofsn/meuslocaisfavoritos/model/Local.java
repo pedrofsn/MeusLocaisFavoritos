@@ -1,5 +1,7 @@
 package br.pedrofsn.meuslocaisfavoritos.model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,8 +14,7 @@ public class Local implements Serializable {
     private String cidade;
     private String pais;
     private String nome;
-    private double latitude;
-    private double longitude;
+    private LatLng latLng;
     private Date dataDoCheckin;
 
     public Local() {
@@ -77,25 +78,18 @@ public class Local implements Serializable {
     }
 
     public double getLatitude() {
-        return latitude;
+        return latLng.latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     public double getLongitude() {
-        return longitude;
+        return latLng.longitude;
     }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getDescricaoDoEndereco() {
-        String descricao = this.pais + " - " + this.cidade;
-        return descricao.trim();
-    }
-
-
 }
