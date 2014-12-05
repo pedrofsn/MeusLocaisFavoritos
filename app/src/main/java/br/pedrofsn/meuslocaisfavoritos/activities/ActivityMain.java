@@ -16,6 +16,7 @@ import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
+import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDistancia;
 import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaEndereco;
 import pedrofsn.meus.locais.favoritos.R;
@@ -35,8 +36,22 @@ public class ActivityMain extends ActionBarActivity {
 
     private Local localSelecionado;
 
+    private DirectionResponse directionResponse;
+
     public Local getLocalSelecionado() {
         return localSelecionado;
+    }
+
+    public void setDirectionResponse(DirectionResponse directionResponse) {
+        this.directionResponse = directionResponse;
+    }
+
+    public boolean desenharRota() {
+        boolean temRotaParaDesenhar = directionResponse != null;
+        if (temRotaParaDesenhar) {
+            fragmentMaps.desenharRotas(directionResponse);
+        }
+        return temRotaParaDesenhar;
     }
 
     @Override

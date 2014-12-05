@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
@@ -18,7 +19,7 @@ import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDistancia;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaEndereco;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
-import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
+import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import pedrofsn.meus.locais.favoritos.R;
 
 /**
@@ -33,6 +34,8 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
     private ImageView imageViewCheckin;
     private ImageView imageViewIr;
     private ProgressBar progressBar;
+
+    private DirectionResponse directionResponse;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
         super.onStart();
         imageViewCheckin.setOnClickListener(this);
         imageViewIr.setOnClickListener(this);
+        linearLayoutBlocoInformacoes.setOnClickListener(this);
         exibirInformacoes(false);
     }
 
@@ -75,10 +79,12 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
     }
 
     @Override
-    public void setDistancia(Distance distancia) {
-        if (distancia != null) {
-            textViewDistancia.setText("Distância: ".concat(distancia.getText()));
+    public void setDistancia(DirectionResponse directionResponse) {
+        if (directionResponse != null) {
+            ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
+            textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
             exibirInformacoes(true);
+            this.directionResponse = directionResponse;
         }
     }
 
@@ -106,13 +112,17 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageViewCheckin:
-                DialogFragmentCheckin dialogFragmentCheckin = new DialogFragmentCheckin();
-                dialogFragmentCheckin.setTargetFragment(this, 0);
-                dialogFragmentCheckin.show(getChildFragmentManager(), DialogFragmentCheckin.TAG);
+                chamarDialogCheckin();
                 break;
 
             case R.id.imageViewIr:
+                if (!((ActivityMain) getActivity()).desenharRota()) {
+                    Toast.makeText(getActivity(), "Opps... a rota ainda não pode ser desenhada", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
+            case R.id.linearLayoutBlocoInformacoes:
+                chamarDialogCheckin();
                 break;
         }
     }
@@ -122,5 +132,11 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
         Local local = ((ActivityMain) getActivity()).getLocalSelecionado();
         local.setNome(nome);
         new DAOLocal(getActivity()).createLocal(local);
+    }
+
+    private void chamarDialogCheckin() {
+        DialogFragmentCheckin dialogFragmentCheckin = new DialogFragmentCheckin();
+        dialogFragmentCheckin.setTargetFragment(this, 0);
+        dialogFragmentCheckin.show(getChildFragmentManager(), DialogFragmentCheckin.TAG);
     }
 }

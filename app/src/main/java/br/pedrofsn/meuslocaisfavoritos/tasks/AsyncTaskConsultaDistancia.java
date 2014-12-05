@@ -24,7 +24,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
 /**
  * Created by pedrofsn on 04/12/2014.
  */
-public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, Distance> {
+public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, DirectionResponse> {
 
     private IAsyncTaskConsultaDistancia callback;
     private LatLng pontoDeOrigem;
@@ -37,12 +37,12 @@ public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, Distance> 
     }
 
     @Override
-    protected Distance doInBackground(Void... voids) {
-        return getDistanceValue(getDirectionResponse(pontoDeOrigem, pontoDeDestino));
+    protected DirectionResponse doInBackground(Void... voids) {
+        return getDirectionResponse(pontoDeOrigem, pontoDeDestino);
     }
 
     @Override
-    protected void onPostExecute(Distance result) {
+    protected void onPostExecute(DirectionResponse result) {
         super.onPostExecute(result);
         if (result != null)
             callback.setDistancia(result);
@@ -77,19 +77,5 @@ public class AsyncTaskConsultaDistancia extends AsyncTask<Void, Void, Distance> 
 
         inputStream.close();
         return resultado;
-    }
-
-    public Distance getDistanceValue(DirectionResponse doc) {
-        if (doc != null) {
-            if (doc.getRoutes() != null) {
-                if (doc.getRoutes().size() > 0) {
-                    if (doc.getRoutes().get(0).getLegs() != null && doc.getRoutes().get(0).getLegs().size() > 0) {
-                        return doc.getRoutes().get(0).getLegs().get(0).getDistance() != null ? doc.getRoutes().get(0).getLegs().get(0).getDistance() : null;
-                    }
-                }
-            }
-        }
-
-        return null;
     }
 }

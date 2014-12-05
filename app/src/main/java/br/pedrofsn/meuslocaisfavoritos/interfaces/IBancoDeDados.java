@@ -11,11 +11,11 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
  */
 public interface IBancoDeDados {
 
-    public void createLocal(Local local);
+    public boolean createLocal(Local local);
 
     public List<Local> readLocal();
 
-    public void deleteLocal(long id);
+    public boolean deleteLocal(long id);
 
     public boolean existsLocal(LatLng latLng);
 

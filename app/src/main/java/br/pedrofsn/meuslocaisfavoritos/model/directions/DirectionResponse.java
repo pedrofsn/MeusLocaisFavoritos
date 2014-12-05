@@ -21,4 +21,18 @@ public class DirectionResponse {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getTextDistancia() {
+        if (this != null) {
+            if (this.getRoutes() != null) {
+                if (this.getRoutes().size() > 0) {
+                    if (this.getRoutes().get(0).getLegs() != null && this.getRoutes().get(0).getLegs().size() > 0) {
+                        return this.getRoutes().get(0).getLegs().get(0).getDistance() != null ? this.getRoutes().get(0).getLegs().get(0).getDistance().getText() : null;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 }

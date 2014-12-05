@@ -58,7 +58,8 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     }
 
     @Override
-    public void createLocal(Local local) {
+    public boolean createLocal(Local local) {
+        boolean isSucesso = true;
         try {
             Date date = new Date();
             SQLiteDatabase db = this.getWritableDatabase();
@@ -72,8 +73,11 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
             values.put(COLUNA_DATA_CHECKIN, date.getTime());
             db.insert(TABELA_LOCAIS_FAVORITOS, null, values);
         } catch (Exception e) {
-            throw e;
+            isSucesso = false;
+            e.printStackTrace();
         }
+
+        return isSucesso;
     }
 
     @Override
@@ -116,7 +120,8 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     }
 
     @Override
-    public void deleteLocal(long id) {
+    public boolean deleteLocal(long id) {
+        boolean isSucesso = true;
         SQLiteDatabase database = null;
         try {
             database = getWritableDatabase();
@@ -127,8 +132,11 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
             database.close();
         } catch (Exception e) {
             if (database != null) database.close();
-            throw e;
+            e.printStackTrace();
+            isSucesso = false;
         }
+
+        return isSucesso;
     }
 
     @Override

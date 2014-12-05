@@ -9,7 +9,7 @@ public class Legs {
     private End_location end_location;
     private String start_address;
     private Start_location start_location;
-    private List steps;
+    private List<Steps> steps;
     private List via_waypoint;
 
     public Distance getDistance() {
@@ -60,11 +60,11 @@ public class Legs {
         this.start_location = start_location;
     }
 
-    public List getSteps() {
-        return this.steps;
+    public List<Steps> getSteps() {
+        return steps;
     }
 
-    public void setSteps(List steps) {
+    public void setSteps(List<Steps> steps) {
         this.steps = steps;
     }
 

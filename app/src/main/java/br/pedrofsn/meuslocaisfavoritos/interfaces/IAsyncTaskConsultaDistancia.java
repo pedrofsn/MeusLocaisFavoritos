@@ -1,5 +1,6 @@
 package br.pedrofsn.meuslocaisfavoritos.interfaces;
 
+import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
 
 /**
@@ -7,6 +8,6 @@ import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
  */
 public interface IAsyncTaskConsultaDistancia {
 
-    public void setDistancia(Distance distancia);
+    public void setDistancia(DirectionResponse directionResponse);
 
 }
