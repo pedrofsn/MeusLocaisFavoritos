@@ -21,7 +21,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     private static final String DATABASE_NAME = "MeusLocaisFavoritos.db";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     private static final String TABELA_LOCAIS_FAVORITOS = "LOCAIS_FAVORITOS";
     private static final String COLUNA_ID = "ID";

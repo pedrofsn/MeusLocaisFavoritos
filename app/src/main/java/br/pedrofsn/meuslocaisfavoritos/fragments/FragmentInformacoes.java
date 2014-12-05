@@ -3,7 +3,6 @@ package br.pedrofsn.meuslocaisfavoritos.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,10 @@ import android.widget.TextView;
 
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dialogs.DialogFragmentCheckin;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDistancia;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaEndereco;
+import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.Distance;
 import pedrofsn.meus.locais.favoritos.R;
@@ -23,7 +24,7 @@ import pedrofsn.meus.locais.favoritos.R;
 /**
  * Created by pedro.sousa on 03/12/2014.
  */
-public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaEndereco, IAsyncTaskConsultaDistancia, View.OnClickListener {
+public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaEndereco, IAsyncTaskConsultaDistancia, ICallbackDialogCheckin, View.OnClickListener {
 
     private LinearLayout linearLayoutBlocoInformacoes;
     private TextView textViewTitulo;
@@ -105,18 +106,21 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaE
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageViewCheckin:
-                Local l = ((ActivityMain) getActivity()).getLocalSelecionado();
-                Log.e("teste", "Pegou : " + l.getNome() + " - " + l.getCidade() + " - " + l.getEndereco() + " - " + l.getPais() + " - " + l.getLatitude() + " - " + l.getLongitude());
-                new DAOLocal(getActivity()).createLocal(l);
-
-                for (Local local : new DAOLocal(getActivity()).readLocal()) {
-                    Log.e("teste", ">> " + local.getLatitude());
-                }
+                DialogFragmentCheckin dialogFragmentCheckin = new DialogFragmentCheckin();
+                dialogFragmentCheckin.setTargetFragment(this, 0);
+                dialogFragmentCheckin.show(getChildFragmentManager(), DialogFragmentCheckin.TAG);
                 break;
 
             case R.id.imageViewIr:
 
                 break;
         }
+    }
+
+    @Override
+    public void salvarEndereco(String nome) {
+        Local local = ((ActivityMain) getActivity()).getLocalSelecionado();
+        local.setNome(nome);
+        new DAOLocal(getActivity()).createLocal(local);
     }
 }
