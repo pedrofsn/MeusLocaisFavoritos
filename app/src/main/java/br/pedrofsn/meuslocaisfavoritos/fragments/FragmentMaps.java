@@ -119,7 +119,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     private void carregarLocaisNoMapa() {
         for (Local l : new DAOLocal(getActivity()).readLocal()) {
-            ((ActivityMain) getActivity()).getMapa().put(l, map.addMarker(new MarkerOptions().position(l.getLatLng())));
+            map.addMarker(new MarkerOptions().position(l.getLatLng()));
         }
     }
 

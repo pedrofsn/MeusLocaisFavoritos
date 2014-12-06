@@ -139,7 +139,6 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         ((ActivityMain) getActivity()).getLocal().setDataDoCheckin(new Date().getTime());
 
         if (new DAOLocal(getActivity()).createLocal(((ActivityMain) getActivity()).getLocal())) {
-            ((ActivityMain) getActivity()).getMapa().put(((ActivityMain) getActivity()).getLocal(), ((ActivityMain) getActivity()).getMarkerSelecionado());
             Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Ops... a localização no foi salva.", Toast.LENGTH_SHORT).show();

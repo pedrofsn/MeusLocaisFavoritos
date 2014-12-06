@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IBancoDeDados;

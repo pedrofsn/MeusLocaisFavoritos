@@ -12,11 +12,6 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
@@ -43,12 +38,6 @@ public class ActivityMain extends ActionBarActivity {
     private LatLng minhaLocalizacao;
 
     private Local local = new Local();
-
-    private Map<Local, Marker> mapa = new HashMap<Local, Marker>();
-
-    public Map<Local, Marker> getMapa() {
-        return mapa;
-    }
 
     public Local getLocal() {
         return local;

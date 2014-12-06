@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <!-- deixei um linear a mais pra não ter que controlar a visibilidade de cada elemento -->
     <LinearLayout
-        android:background="@drawable/drawable_card"
-        android:padding="10dp"
-        android:layout_marginTop="30dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/drawable_card"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/linearLayoutBlocoInformacoes"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textViewTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="50dp"
                 android:textAllCaps="true"
-                android:layout_marginRight="50dp"
-                android:textStyle="bold"
                 android:textSize="16sp"
-                android:id="@+id/textViewTitulo" />
+                android:textStyle="bold" />
 
             <TextView
-                android:textSize="16sp"
+                android:id="@+id/textViewDescricao"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="50dp"
-                android:id="@+id/textViewDescricao" />
+                android:textSize="16sp" />
 
             <TextView
-                android:textSize="16sp"
-                android:layout_marginRight="50dp"
+                android:id="@+id/textViewDistancia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textViewDistancia" />
+                android:layout_marginRight="50dp"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
         android:layout_gravity="center" />
 
     <LinearLayout
@@ -60,18 +60,18 @@
 
         <ImageView
             android:id="@+id/imageViewCheckin"
-            android:src="@drawable/ic_checkin"
-            android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:layout_height="0dp" />
+            android:src="@drawable/ic_checkin" />
 
         <ImageView
-            android:layout_gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp"
             android:id="@+id/imageViewIr"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:src="@android:drawable/ic_menu_directions" />
     </LinearLayout>
 </FrameLayout>

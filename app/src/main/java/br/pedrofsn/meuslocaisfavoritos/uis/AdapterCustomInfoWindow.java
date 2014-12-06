@@ -51,20 +51,17 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, Vie
         TextView textViewDeletar = ((TextView) view.findViewById(R.id.textViewDeletar));
         TextView textViewIr = ((TextView) view.findViewById(R.id.textViewIr));
 
-        for (Map.Entry<Local, Marker> entry : ((ActivityMain) context).getMapa().entrySet()) {
-            if (marker.getPosition().latitude == entry.getValue().getPosition().latitude && marker.getPosition().longitude == entry.getValue().getPosition().longitude) {
-                textViewNome.setText(entry.getKey().getNome());
-                textViewHoras.setText(entry.getKey().getDataDoCheckin().toString());
-                textViewEndereco.setText(entry.getKey().getEndereco());
+        Local local = daoLocal.readLocal(marker.getPosition());
 
-                ((ActivityMain) context).setVisibilityInfoLocation(false);
+        if (local != null) {
+            textViewNome.setText(local.getNome());
+            textViewHoras.setText(local.getDataDoCheckin().toString());
+            textViewEndereco.setText(local.getEndereco());
 
-                entrySelecionada = entry;
+            ((ActivityMain) context).setVisibilityInfoLocation(false);
 
-                textViewDeletar.setOnClickListener(this);
-                textViewIr.setOnClickListener(this);
-                break;
-            }
+            textViewDeletar.setOnClickListener(this);
+            textViewIr.setOnClickListener(this);
         }
 
     }

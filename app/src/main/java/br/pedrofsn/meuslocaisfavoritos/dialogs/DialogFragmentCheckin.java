@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 
 /**
  * Created by pedro.sousa on 03/12/2014.

@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/drawable_card"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <TextView
-        android:textStyle="bold"
+        android:id="@+id/textViewNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAllCaps="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:id="@+id/textViewNome" />
+        android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/textViewHoras"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:textStyle="italic"
-        android:id="@+id/textViewHoras" />
+        android:textStyle="italic" />
 
     <TextView
+        android:id="@+id/textViewEndereco"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
-        android:textStyle="italic"
-        android:id="@+id/textViewEndereco" />
+        android:textStyle="italic" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,24 +34,24 @@
 
 
         <TextView
-            android:drawableTop="@android:drawable/ic_menu_delete"
-            android:text="Deletar"
-            android:gravity="center"
-            android:layout_weight="1"
+            android:id="@+id/textViewDeletar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewDeletar" />
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_delete"
+            android:gravity="center"
+            android:text="Deletar" />
 
 
         <TextView
-            android:drawableTop="@android:drawable/ic_menu_directions"
-            android:text="Ir"
-            android:gravity="center"
-            android:layout_weight="1"
+            android:id="@+id/textViewIr"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewIr" />
+            android:layout_weight="1"
+            android:drawableTop="@android:drawable/ic_menu_directions"
+            android:gravity="center"
+            android:text="Ir" />
 
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
