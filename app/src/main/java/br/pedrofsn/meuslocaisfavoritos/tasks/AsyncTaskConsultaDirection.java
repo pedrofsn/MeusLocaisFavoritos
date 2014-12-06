@@ -64,7 +64,7 @@ public class AsyncTaskConsultaDirection extends AsyncTask<Void, Void, DirectionR
         String url = "http://maps.googleapis.com/maps/api/directions/json?"
                 + "origin=" + start.latitude + "," + start.longitude
                 + "&destination=" + end.latitude + "," + end.longitude
-                + "&sensor=false&units=metric&mode=driving";
+                + "&sensor=false&units=metric&language=pt&mode=driving";
 
         try {
             HttpClient httpClient = new DefaultHttpClient();
