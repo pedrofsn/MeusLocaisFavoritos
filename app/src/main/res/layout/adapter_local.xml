@@ -1,24 +1,24 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
-    android:layout_margin="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="5dp"
     card_view:cardCornerRadius="4dp">
 
     <LinearLayout
-        android:padding="15dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp">
 
         <TextView
-            android:gravity="center"
-            android:text="---"
-            android:textAllCaps="true"
             android:id="@+id/textViewNome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="---"
+            android:textAllCaps="true" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -27,61 +27,61 @@
             <TableRow>
 
                 <TextView
-                    android:textAllCaps="true"
-                    android:text="Endereço: "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Endereço: "
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:text="---"
                     android:id="@+id/textViewEndereco"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="---" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:textAllCaps="true"
-                    android:text="Latitude: "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Latitude: "
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:text="---"
                     android:id="@+id/textViewLatitude"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="---" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:text="Longitude: "
                     android:layout_width="match_parent"
-                    android:textAllCaps="true"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Longitude: "
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:text="---"
                     android:id="@+id/textViewLongitude"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="---" />
             </TableRow>
 
             <TableRow>
 
                 <TextView
-                    android:textAllCaps="true"
-                    android:text="Salvo às "
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="Salvo às "
+                    android:textAllCaps="true" />
 
                 <TextView
-                    android:text="---"
                     android:id="@+id/textViewHorario"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="---" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
