@@ -2,18 +2,15 @@ package br.pedrofsn.meuslocaisfavoritos.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
@@ -34,35 +31,6 @@ public class ActivityMain extends ActionBarActivity {
     private Local localSelecionado;
 
     private DirectionResponse directionResponse;
-
-    private LatLng minhaLocalizacao;
-
-    private Local local = new Local();
-
-    public Local getLocal() {
-        return local;
-    }
-
-    public void setLocal(Local local) {
-        this.local = local;
-    }
-
-    public void setMinhaLocalizacao(LatLng minhaLocalizacao) {
-        this.minhaLocalizacao = minhaLocalizacao;
-    }
-
-    public void setDirectionResponse(DirectionResponse directionResponse) {
-        this.directionResponse = directionResponse;
-        this.markerSelecionado.setPosition(directionResponse.getLatLngDestino());
-    }
-
-    public boolean desenharRota() {
-        boolean temRotaParaDesenhar = directionResponse != null;
-        if (temRotaParaDesenhar) {
-            fragmentMaps.desenharRotas(directionResponse);
-        }
-        return temRotaParaDesenhar;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,9 +55,8 @@ public class ActivityMain extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toogleMap:
-                Log.e("teste", "Capturou: " + new DAOLocal(this).existsLocal(new LatLng(10.00080287174, 10.0003004819155)));
-                Log.e("teste", "Capturou: " + new DAOLocal(this).existsLocal(new LatLng(10, 10)));
-                Log.e("teste", "Capturou: " + new DAOLocal(this).existsLocal(new LatLng(-16.6596433665014, -49.2821637913585)));
+
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -108,6 +75,17 @@ public class ActivityMain extends ActionBarActivity {
         }
     }
 
+    public void setDirectionResponse(DirectionResponse directionResponse) {
+        this.directionResponse = directionResponse;
+        this.markerSelecionado.setPosition(directionResponse.getLatLngDestino());
+    }
+
+    public void desenharRota() {
+        if (directionResponse != null) {
+            fragmentMaps.desenharRota(directionResponse);
+        }
+    }
+
     public Marker getMarkerSelecionado() {
         return markerSelecionado;
     }
@@ -122,7 +100,7 @@ public class ActivityMain extends ActionBarActivity {
 
         localSelecionado.setLatLng(markerSelecionado.getPosition());
 
-        new AsyncTaskConsultaDirection(fragmentInformacoes, new LatLng(minhaLocalizacao.latitude, minhaLocalizacao.longitude), markerSelecionado.getPosition()).execute();
+        new AsyncTaskConsultaDirection(fragmentInformacoes, fragmentMaps.getMinhaLocalizacao(), markerSelecionado.getPosition()).execute();
     }
 
 }

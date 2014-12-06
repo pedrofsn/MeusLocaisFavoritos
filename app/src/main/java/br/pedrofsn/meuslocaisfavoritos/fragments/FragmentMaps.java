@@ -47,6 +47,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     private LocationManager locationManager;
     private DAOLocal daoLocal;
     private Polyline polyline;
+    private LatLng loc;
 
     private DirectionResponse ultimoDirectionResponse;
 
@@ -100,9 +101,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
         Location lastKnownLocation = new LocationController().getLastKnownLocation(locationManager);
         if (lastKnownLocation != null) {
-            LatLng loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+            loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 14.0f));
-            ((ActivityMain) getActivity()).setMinhaLocalizacao(loc);
         }
 
         map.setMyLocationEnabled(true);
@@ -176,7 +176,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     }
 
-    public void desenharRotas(DirectionResponse directionResponse) {
+    public void desenharRota(DirectionResponse directionResponse) {
         if (directionResponse != null && ultimoDirectionResponse != directionResponse) {
             if (polyline != null) {
                 polyline.remove();
@@ -243,5 +243,9 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             removerUltimoMarkerAdicionado(marker.getPosition());
         }
         return false;
+    }
+
+    public LatLng getMinhaLocalizacao() {
+        return loc;
     }
 }
