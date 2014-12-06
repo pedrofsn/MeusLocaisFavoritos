@@ -163,7 +163,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     private void removerUltimoMarkerAdicionado(LatLng latLng) {
         if (((ActivityMain) getActivity()).isInfoLocationVisible()) {
-            ((ActivityMain) getActivity()).setVisibilityInfoLocation(false);
+            ((ActivityMain) getActivity()).exibirInformacoes(false);
         }
 
         if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {

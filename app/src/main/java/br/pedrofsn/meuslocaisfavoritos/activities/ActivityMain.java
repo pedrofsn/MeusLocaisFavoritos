@@ -7,10 +7,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.fragments.DialogFragmentRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
@@ -54,9 +56,8 @@ public class ActivityMain extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.toogleMap:
-
-
+            case R.id.exibirRota:
+                exibirDialogFragmentRota();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -67,7 +68,7 @@ public class ActivityMain extends ActionBarActivity {
         return relativeLayoutInfoBottom.getVisibility() == View.VISIBLE ? true : false;
     }
 
-    public void setVisibilityInfoLocation(boolean exibir) {
+    public void exibirInformacoes(boolean exibir) {
         if (exibir) {
             relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
         } else {
@@ -76,13 +77,16 @@ public class ActivityMain extends ActionBarActivity {
     }
 
     public void setDirectionResponse(DirectionResponse directionResponse) {
-        this.directionResponse = directionResponse;
-        this.markerSelecionado.setPosition(directionResponse.getLatLngDestino());
+        if (directionResponse != null) {
+            this.directionResponse = directionResponse;
+            this.markerSelecionado.setPosition(directionResponse.getLatLngDestino());
+        }
     }
 
     public void desenharRota() {
         if (directionResponse != null) {
             fragmentMaps.desenharRota(directionResponse);
+            exibirDialogFragmentRota();
         }
     }
 
@@ -103,4 +107,17 @@ public class ActivityMain extends ActionBarActivity {
         new AsyncTaskConsultaDirection(fragmentInformacoes, fragmentMaps.getMinhaLocalizacao(), markerSelecionado.getPosition()).execute();
     }
 
+    public void exibirDialogFragmentRota() {
+        if (isInfoLocationVisible()) {
+            DialogFragmentRota dialogFragmentRota = new DialogFragmentRota();
+
+            Bundle args = new Bundle();
+            args.putSerializable("DirectionResponse", directionResponse);
+            dialogFragmentRota.setArguments(args);
+
+            dialogFragmentRota.show(getSupportFragmentManager(), "dialogFragmentRota");
+        } else {
+            Toast.makeText(this, "Selecione um destino para gerar uma rota", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

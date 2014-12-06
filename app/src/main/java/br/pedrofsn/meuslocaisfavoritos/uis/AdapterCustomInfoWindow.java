@@ -58,7 +58,7 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, Vie
             textViewHoras.setText(local.getDataDoCheckin().toString());
             textViewEndereco.setText(local.getEndereco());
 
-            ((ActivityMain) context).setVisibilityInfoLocation(false);
+            ((ActivityMain) context).exibirInformacoes(false);
 
             textViewDeletar.setOnClickListener(this);
             textViewIr.setOnClickListener(this);

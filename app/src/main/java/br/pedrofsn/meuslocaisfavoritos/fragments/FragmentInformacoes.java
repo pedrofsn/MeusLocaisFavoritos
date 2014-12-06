@@ -88,12 +88,15 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
 
     @Override
     public void setDirection(DirectionResponse directionResponse) {
-        if (directionResponse != null) {
+        if (directionResponse != null && directionResponse.getStatus().equals("ZERO_RESULTS")) {
+            Toast.makeText(getActivity(), "Sem resultados para este destino", Toast.LENGTH_SHORT).show();
+            ((ActivityMain) getActivity()).exibirInformacoes(false);
+        } else if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
             local.setLatLng(directionResponse.getLatLngDestino());
             local.setEndereco(directionResponse.getEnderecoDoDestino());
 
-            textViewTitulo.setText(directionResponse.getLatLngDestino().latitude + " - " + directionResponse.getLatLngDestino().longitude);
+            textViewTitulo.setText(directionResponse.getLatLngDestino().latitude + ", " + directionResponse.getLatLngDestino().longitude);
 
             if (directionResponse.getTextDistancia() != null)
                 textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));

@@ -8,7 +8,7 @@ import java.util.List;
 public class LocationController {
 
     private static final int TWO_MINUTES = 1000 * 60 * 2;
- 
+
     /**
      * Determines whether one Location reading is better than the current Location fix
      *
