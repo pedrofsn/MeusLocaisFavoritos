@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
@@ -115,6 +114,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         map.setOnMapLongClickListener(this);
         map.setOnMapClickListener(this);
         map.setOnInfoWindowClickListener(null);
+        map.setOnMarkerClickListener(this);
     }
 
     private void carregarLocaisNoMapa() {
@@ -236,19 +236,12 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        boolean markerNovo = false;
-        for (Map.Entry<Local, Marker> entry : ((ActivityMain) getActivity()).getMapa().entrySet()) {
-            if (marker.getPosition().latitude == entry.getValue().getPosition().latitude && marker.getPosition().longitude == entry.getValue().getPosition().longitude) {
-                markerNovo = true;
-                break;
-            }
-        }
-
-        if (markerNovo) {
+        if (!new DAOLocal(getActivity()).existsLocal(marker.getPosition())) {
             marker.hideInfoWindow();
             return true;
+        } else {
+            removerUltimoMarkerAdicionado(marker.getPosition());
         }
-
         return false;
     }
 }

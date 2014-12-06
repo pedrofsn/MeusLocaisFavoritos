@@ -53,7 +53,7 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, Vie
 
         for (Map.Entry<Local, Marker> entry : ((ActivityMain) context).getMapa().entrySet()) {
             if (marker.getPosition().latitude == entry.getValue().getPosition().latitude && marker.getPosition().longitude == entry.getValue().getPosition().longitude) {
-                textViewNome.setText(entry.getKey().getId() + " - " + entry.getKey().getNome());
+                textViewNome.setText(entry.getKey().getNome());
                 textViewHoras.setText(entry.getKey().getDataDoCheckin().toString());
                 textViewEndereco.setText(entry.getKey().getEndereco());
 

@@ -13,6 +13,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
@@ -134,6 +136,8 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     @Override
     public void salvarEndereco(String nome) {
         ((ActivityMain) getActivity()).getLocal().setNome(nome);
+        ((ActivityMain) getActivity()).getLocal().setDataDoCheckin(new Date().getTime());
+
         if (new DAOLocal(getActivity()).createLocal(((ActivityMain) getActivity()).getLocal())) {
             ((ActivityMain) getActivity()).getMapa().put(((ActivityMain) getActivity()).getLocal(), ((ActivityMain) getActivity()).getMarkerSelecionado());
             Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();

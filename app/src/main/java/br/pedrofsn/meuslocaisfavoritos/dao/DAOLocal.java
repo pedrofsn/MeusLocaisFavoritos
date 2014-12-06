@@ -21,7 +21,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     private static final String DATABASE_NAME = "MeusLocaisFavoritos.db";
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     private static final String TABELA_LOCAIS_FAVORITOS = "LOCAIS_FAVORITOS";
     private static final String COLUNA_ID = "ID";
@@ -42,8 +42,8 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                     "(" + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUNA_ENDERECO + " STRING, " +
                     COLUNA_NOME + " STRING, " +
-                    COLUNA_LATITUDE + " STRING NOT NULL, " +
-                    COLUNA_LONGITUDE + " STRING NOT NULL, " +
+                    COLUNA_LATITUDE + " NUMBER NOT NULL, " +
+                    COLUNA_LONGITUDE + " NUMBER NOT NULL, " +
                     COLUNA_DATA_CHECKIN + " NUMBER NOT NULL " +
                     ");";
             database.execSQL(createTable);
@@ -62,13 +62,12 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
         synchronized (database) {
             try {
-                Date date = new Date();
                 ContentValues values = new ContentValues();
                 values.put(COLUNA_ENDERECO, local.getEndereco());
                 values.put(COLUNA_NOME, local.getNome());
-                values.put(COLUNA_LATITUDE, String.valueOf(local.getLatitude()));
-                values.put(COLUNA_LONGITUDE, String.valueOf(local.getLongitude()));
-                values.put(COLUNA_DATA_CHECKIN, date.getTime());
+                values.put(COLUNA_LATITUDE, local.getLatitude());
+                values.put(COLUNA_LONGITUDE, local.getLongitude());
+                values.put(COLUNA_DATA_CHECKIN, local.getDataDoCheckin().getTime());
                 database.insert(TABELA_LOCAIS_FAVORITOS, null, values);
             } catch (Exception e) {
                 isSucesso = false;
@@ -100,7 +99,7 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                     local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
                     local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
                     local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
-                    local.setLatLng(new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LATITUDE))), Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
+                    local.setLatLng(new LatLng((cursor.getDouble(cursor.getColumnIndex(COLUNA_LATITUDE))), (cursor.getDouble(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
                     local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
                     listaLocais.add(local);
                 } while (cursor.moveToNext());
@@ -131,7 +130,7 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                     local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
                     local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
                     local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
-                    local.setLatLng(new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LATITUDE))), Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
+                    local.setLatLng(new LatLng((cursor.getDouble(cursor.getColumnIndex(COLUNA_LATITUDE))), (cursor.getDouble(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
                     local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
                 } while (cursor.moveToNext());
                 cursor.close();
