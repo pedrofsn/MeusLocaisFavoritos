@@ -1,5 +1,6 @@
 package br.pedrofsn.meuslocaisfavoritos.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -7,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
@@ -65,6 +65,9 @@ public class ActivityMain extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.exibirRota:
                 exibirDialogFragmentRota();
+                return true;
+            case R.id.listaDeLocais:
+                startActivity(new Intent(this, ActivityLocaisFavoritos.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -132,8 +135,6 @@ public class ActivityMain extends ActionBarActivity {
             dialogFragmentRota.setArguments(args);
 
             dialogFragmentRota.show(getSupportFragmentManager(), "dialogFragmentRota");
-        } else {
-            Toast.makeText(this, "Carregando rota...", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -8,4 +8,10 @@
         android:title="Rota"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/listaDeLocais"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Locais"
+        app:showAsAction="never" />
+
 </menu>
