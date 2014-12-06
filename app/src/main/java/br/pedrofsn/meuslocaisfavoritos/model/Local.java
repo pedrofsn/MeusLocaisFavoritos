@@ -11,8 +11,6 @@ import java.util.Date;
 public class Local implements Serializable {
     private long id;
     private String endereco;
-    private String cidade;
-    private String pais;
     private String nome;
     private LatLng latLng;
     private Date dataDoCheckin;
@@ -21,10 +19,8 @@ public class Local implements Serializable {
 
     }
 
-    public Local(String endereco, String cidade, String pais) {
+    public Local(String endereco) {
         this.endereco = endereco;
-        this.cidade = cidade;
-        this.pais = pais;
     }
 
     public Date getDataDoCheckin() {
@@ -51,22 +47,6 @@ public class Local implements Serializable {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
     }
 
     public String getNome() {

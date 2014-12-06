@@ -15,6 +15,8 @@ public interface IBancoDeDados {
 
     public List<Local> readLocal();
 
+    public Local readLocal(LatLng latLng);
+
     public boolean deleteLocal(long id);
 
     public boolean existsLocal(LatLng latLng);

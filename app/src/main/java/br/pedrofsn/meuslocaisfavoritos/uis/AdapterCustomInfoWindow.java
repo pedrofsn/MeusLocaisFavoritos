@@ -8,17 +8,22 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
+import java.util.Map;
+
+import br.pedrofsn.meuslocaisfavoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
-import pedrofsn.meus.locais.favoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.model.Local;
 
 /**
  * Created by pedrofsn on 04/12/2014.
  */
-public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
+public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, View.OnClickListener {
 
     private final View mWindow;
     private Context context;
     private DAOLocal daoLocal;
+    private Map.Entry<Local, Marker> entrySelecionada;
 
     public AdapterCustomInfoWindow(Context context) {
         this.context = context;
@@ -40,25 +45,42 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     private void render(final Marker marker, View view) {
 
-        String nome = marker.getTitle();
-        String latitudeLongitude = "(" + marker.getPosition().latitude + ", " + marker.getPosition().longitude + ")";
-
         TextView textViewNome = ((TextView) view.findViewById(R.id.textViewNome));
-        TextView textViewLatitudeLongitude = ((TextView) view.findViewById(R.id.textViewLatitudeLongitude));
+        TextView textViewHoras = ((TextView) view.findViewById(R.id.textViewHoras));
+        TextView textViewEndereco = ((TextView) view.findViewById(R.id.textViewEndereco));
+        TextView textViewDeletar = ((TextView) view.findViewById(R.id.textViewDeletar));
+        TextView textViewIr = ((TextView) view.findViewById(R.id.textViewIr));
 
-        if (nome == null || nome.equals("")) {
-            nome = "Sem nome";
-            //marker.hideInfoWindow();
+        for (Map.Entry<Local, Marker> entry : ((ActivityMain) context).getMapa().entrySet()) {
+            if (marker.getPosition().latitude == entry.getValue().getPosition().latitude && marker.getPosition().longitude == entry.getValue().getPosition().longitude) {
+                textViewNome.setText(entry.getKey().getId() + " - " + entry.getKey().getNome());
+                textViewHoras.setText(entry.getKey().getDataDoCheckin().toString());
+                textViewEndereco.setText(entry.getKey().getEndereco());
+
+                ((ActivityMain) context).setVisibilityInfoLocation(false);
+
+                entrySelecionada = entry;
+
+                textViewDeletar.setOnClickListener(this);
+                textViewIr.setOnClickListener(this);
+                break;
+            }
         }
 
-        textViewNome.setText(nome);
-/*
-        if (latitudeLongitude != null) {
-            textViewLatitudeLongitude.setText(latitudeLongitude);
-        } else {
-            textViewLatitudeLongitude.setText("");
-        }
-*/
+    }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.textViewIr:
+                if (entrySelecionada != null)
+                    ((ActivityMain) context).desenharRota();
+                break;
+            case R.id.textViewDeletar:
+                if (entrySelecionada != null)
+                    daoLocal.deleteLocal(entrySelecionada.getKey().getId());
+                break;
+
+        }
     }
 }

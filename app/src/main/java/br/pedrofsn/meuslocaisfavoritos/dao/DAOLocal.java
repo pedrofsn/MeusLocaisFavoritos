@@ -26,8 +26,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     private static final String TABELA_LOCAIS_FAVORITOS = "LOCAIS_FAVORITOS";
     private static final String COLUNA_ID = "ID";
     private static final String COLUNA_ENDERECO = "ENDERECO";
-    private static final String COLUNA_CIDADE = "CIDADE";
-    private static final String COLUNA_PAIS = "PAIS";
     private static final String COLUNA_NOME = "NOME";
     private static final String COLUNA_LATITUDE = "LATITUDE";
     private static final String COLUNA_LONGITUDE = "LONGITUDE";
@@ -43,8 +41,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
             String createTable = "CREATE TABLE " + TABELA_LOCAIS_FAVORITOS +
                     "(" + COLUNA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUNA_ENDERECO + " STRING, " +
-                    COLUNA_CIDADE + " STRING, " +
-                    COLUNA_PAIS + " STRING, " +
                     COLUNA_NOME + " STRING, " +
                     COLUNA_LATITUDE + " STRING NOT NULL, " +
                     COLUNA_LONGITUDE + " STRING NOT NULL, " +
@@ -69,8 +65,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                 Date date = new Date();
                 ContentValues values = new ContentValues();
                 values.put(COLUNA_ENDERECO, local.getEndereco());
-                values.put(COLUNA_CIDADE, local.getCidade());
-                values.put(COLUNA_PAIS, local.getPais());
                 values.put(COLUNA_NOME, local.getNome());
                 values.put(COLUNA_LATITUDE, String.valueOf(local.getLatitude()));
                 values.put(COLUNA_LONGITUDE, String.valueOf(local.getLongitude()));
@@ -96,8 +90,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                 cursor = database.query(TABELA_LOCAIS_FAVORITOS, new String[]{
                         COLUNA_ID,
                         COLUNA_ENDERECO,
-                        COLUNA_CIDADE,
-                        COLUNA_PAIS,
                         COLUNA_NOME,
                         COLUNA_LATITUDE,
                         COLUNA_DATA_CHECKIN,
@@ -107,8 +99,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                     Local local = new Local();
                     local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
                     local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
-                    local.setCidade(cursor.getString(cursor.getColumnIndex(COLUNA_CIDADE)));
-                    local.setPais(cursor.getString(cursor.getColumnIndex(COLUNA_PAIS)));
                     local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
                     local.setLatLng(new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LATITUDE))), Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
                     local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
@@ -117,6 +107,36 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
                 cursor.close();
                 database.close();
                 return listaLocais;
+            } catch (Exception e) {
+                if (cursor != null) cursor.close();
+                if (database != null) database.close();
+                throw e;
+            }
+        }
+
+    }
+
+    @Override
+    public Local readLocal(LatLng latLng) {
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = null;
+
+        synchronized (database) {
+            try {
+                Local local = null;
+                cursor = database.rawQuery("select * from " + TABELA_LOCAIS_FAVORITOS + " where " + COLUNA_LATITUDE + " like '" + String.valueOf(latLng.latitude) + "' and " + COLUNA_LONGITUDE + " like '" + String.valueOf(latLng.longitude) + "'", null);
+
+                if (cursor.moveToFirst()) do {
+                    local = new Local();
+                    local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
+                    local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
+                    local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
+                    local.setLatLng(new LatLng(Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LATITUDE))), Double.parseDouble(cursor.getString(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
+                    local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
+                } while (cursor.moveToNext());
+                cursor.close();
+                database.close();
+                return local;
             } catch (Exception e) {
                 if (cursor != null) cursor.close();
                 if (database != null) database.close();

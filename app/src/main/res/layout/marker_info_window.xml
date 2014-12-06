@@ -18,6 +18,40 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textStyle="italic"
-        android:id="@+id/textViewLatitudeLongitude" />
+        android:id="@+id/textViewHoras" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:id="@+id/textViewEndereco" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:drawableTop="@android:drawable/ic_menu_delete"
+            android:text="Deletar"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewDeletar" />
+
+
+        <TextView
+            android:drawableTop="@android:drawable/ic_menu_directions"
+            android:text="Ir"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewIr" />
+
+        </LinearLayout>
 
 </LinearLayout>

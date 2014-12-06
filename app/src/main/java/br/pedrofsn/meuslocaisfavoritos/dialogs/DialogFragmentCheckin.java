@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
-import pedrofsn.meus.locais.favoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.R;
 
 /**
  * Created by pedro.sousa on 03/12/2014.

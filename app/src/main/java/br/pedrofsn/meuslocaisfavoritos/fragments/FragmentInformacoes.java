@@ -13,13 +13,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.dialogs.DialogFragmentCheckin;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
-import pedrofsn.meus.locais.favoritos.R;
 
 /**
  * Created by pedro.sousa on 03/12/2014.
@@ -88,11 +88,10 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     public void setDirection(DirectionResponse directionResponse) {
         if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
-
             ((ActivityMain) getActivity()).getLocal().setLatLng(directionResponse.getLatLngDestino());
             ((ActivityMain) getActivity()).getLocal().setEndereco(directionResponse.getEnderecoDoDestino());
 
-            textViewTitulo.setText("");
+            textViewTitulo.setText(directionResponse.getLatLngDestino().latitude + " - " + directionResponse.getLatLngDestino().longitude);
 
             if (directionResponse.getTextDistancia() != null)
                 textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
@@ -135,9 +134,8 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     @Override
     public void salvarEndereco(String nome) {
         ((ActivityMain) getActivity()).getLocal().setNome(nome);
-        Log.e("teste", "Latitude: " + ((ActivityMain) getActivity()).getLocal().getLatitude());
-        Log.e("teste", "Longitude: " + ((ActivityMain) getActivity()).getLocal().getLongitude());
         if (new DAOLocal(getActivity()).createLocal(((ActivityMain) getActivity()).getLocal())) {
+            ((ActivityMain) getActivity()).getMapa().put(((ActivityMain) getActivity()).getLocal(), ((ActivityMain) getActivity()).getMarkerSelecionado());
             Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getActivity(), "Ops... a localização no foi salva.", Toast.LENGTH_SHORT).show();

@@ -26,14 +26,16 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.controller.LocationController;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.Steps;
 import br.pedrofsn.meuslocaisfavoritos.uis.AdapterCustomInfoWindow;
-import pedrofsn.meus.locais.favoritos.R;
 
 /**
  * Created by pedro.sousa on 03/12/2014.
@@ -95,6 +97,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     private void setUpMap() {
 
+        carregarLocaisNoMapa();
+
         Location lastKnownLocation = new LocationController().getLastKnownLocation(locationManager);
         if (lastKnownLocation != null) {
             LatLng loc = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
@@ -110,7 +114,13 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         // Listeners
         map.setOnMapLongClickListener(this);
         map.setOnMapClickListener(this);
-        map.setOnMarkerClickListener(this);
+        map.setOnInfoWindowClickListener(null);
+    }
+
+    private void carregarLocaisNoMapa() {
+        for (Local l : new DAOLocal(getActivity()).readLocal()) {
+            ((ActivityMain) getActivity()).getMapa().put(l, map.addMarker(new MarkerOptions().position(l.getLatLng())));
+        }
     }
 
     @Override
@@ -142,8 +152,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         Marker marker = map.addMarker(markerOptions);
-        marker.showInfoWindow();
         ((ActivityMain) getActivity()).setMarkerSelecionado(marker);
+
     }
 
     @Override
@@ -153,7 +163,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     private void removerUltimoMarkerAdicionado(LatLng latLng) {
         if (((ActivityMain) getActivity()).isInfoLocationVisible()) {
-            ((ActivityMain) getActivity()).hideInfoLocation(false);
+            ((ActivityMain) getActivity()).setVisibilityInfoLocation(false);
         }
 
         if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
@@ -164,9 +174,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             polyline.remove();
         }
 
-        if (map != null && map.isMyLocationEnabled()) {
-            map.setMyLocationEnabled(false);
-        }
     }
 
     public void desenharRotas(DirectionResponse directionResponse) {
@@ -229,7 +236,19 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-//        marker.hideInfoWindow();
+        boolean markerNovo = false;
+        for (Map.Entry<Local, Marker> entry : ((ActivityMain) getActivity()).getMapa().entrySet()) {
+            if (marker.getPosition().latitude == entry.getValue().getPosition().latitude && marker.getPosition().longitude == entry.getValue().getPosition().longitude) {
+                markerNovo = true;
+                break;
+            }
+        }
+
+        if (markerNovo) {
+            marker.hideInfoWindow();
+            return true;
+        }
+
         return false;
     }
 }

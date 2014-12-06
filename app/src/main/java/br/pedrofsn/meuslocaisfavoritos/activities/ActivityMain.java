@@ -12,13 +12,18 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDirection;
-import pedrofsn.meus.locais.favoritos.R;
 
 /**
  * Created by pedro.sousa on 03/12/2014.
@@ -31,7 +36,6 @@ public class ActivityMain extends ActionBarActivity {
     private FragmentInformacoes fragmentInformacoes;
 
     private Marker markerSelecionado;
-
     private Local localSelecionado;
 
     private DirectionResponse directionResponse;
@@ -39,6 +43,12 @@ public class ActivityMain extends ActionBarActivity {
     private LatLng minhaLocalizacao;
 
     private Local local = new Local();
+
+    private Map<Local, Marker> mapa = new HashMap<Local, Marker>();
+
+    public Map<Local, Marker> getMapa() {
+        return mapa;
+    }
 
     public Local getLocal() {
         return local;
@@ -97,6 +107,22 @@ public class ActivityMain extends ActionBarActivity {
         }
     }
 
+    public boolean isInfoLocationVisible() {
+        return relativeLayoutInfoBottom.getVisibility() == View.VISIBLE ? true : false;
+    }
+
+    public void setVisibilityInfoLocation(boolean exibir) {
+        if (exibir) {
+            relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
+        } else {
+            relativeLayoutInfoBottom.setVisibility(View.GONE);
+        }
+    }
+
+    public Marker getMarkerSelecionado() {
+        return markerSelecionado;
+    }
+
     public void setMarkerSelecionado(Marker markerSelecionado) {
         this.markerSelecionado = markerSelecionado;
         relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
@@ -108,22 +134,6 @@ public class ActivityMain extends ActionBarActivity {
         localSelecionado.setLatLng(markerSelecionado.getPosition());
 
         new AsyncTaskConsultaDirection(fragmentInformacoes, new LatLng(minhaLocalizacao.latitude, minhaLocalizacao.longitude), markerSelecionado.getPosition()).execute();
-    }
-
-    public boolean isInfoLocationVisible() {
-        return relativeLayoutInfoBottom.getVisibility() == View.VISIBLE ? true : false;
-    }
-
-    public void hideInfoLocation(boolean exibir) {
-        if (exibir) {
-            relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
-        } else {
-            relativeLayoutInfoBottom.setVisibility(View.GONE);
-        }
-    }
-
-    public Marker getMarkerSelecionado() {
-        return markerSelecionado;
     }
 
 }

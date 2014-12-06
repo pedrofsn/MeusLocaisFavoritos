@@ -8,6 +8,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 public interface IAsyncTaskConsultaDirection {
 
     public void setDirection(DirectionResponse directionResponse);
+
     public void processandoAsyncTaskDirection();
 
 }
