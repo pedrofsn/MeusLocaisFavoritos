@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.Marker;
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.fragments.DialogFragmentRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
+import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
@@ -24,10 +25,14 @@ import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDirection;
  */
 public class ActivityMain extends ActionBarActivity {
 
-    private RelativeLayout relativeLayoutInfoBottom;
+    public static boolean CUSTOM_INFO_WINDOW_FOI_RENDERIZADA = false;
+
+    private RelativeLayout relativeLayoutFragmentInformacoes;
+    private RelativeLayout relativeLayoutFragmentInformacoesDaRota;
 
     private FragmentMaps fragmentMaps;
     private FragmentInformacoes fragmentInformacoes;
+    private FragmentInformacoesDaRota fragmentInformacoesDaRota;
 
     private Marker markerSelecionado;
     private Local localSelecionado;
@@ -39,10 +44,12 @@ public class ActivityMain extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        relativeLayoutInfoBottom = (RelativeLayout) findViewById(R.id.relativeLayoutInfoBottom);
+        relativeLayoutFragmentInformacoes = (RelativeLayout) findViewById(R.id.relativeLayoutFragmentInformacoes);
+        relativeLayoutFragmentInformacoesDaRota = (RelativeLayout) findViewById(R.id.relativeLayoutFragmentInformacoesDaRota);
 
         fragmentMaps = (FragmentMaps) getSupportFragmentManager().findFragmentById(R.id.fragmentMap);
         fragmentInformacoes = ((FragmentInformacoes) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoes));
+        fragmentInformacoesDaRota = ((FragmentInformacoesDaRota) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoesDaRota));
 
     }
 
@@ -64,15 +71,24 @@ public class ActivityMain extends ActionBarActivity {
         }
     }
 
-    public boolean isInfoLocationVisible() {
-        return relativeLayoutInfoBottom.getVisibility() == View.VISIBLE ? true : false;
+    public boolean isVisibleRelativeLayoutFragmentInformacoes() {
+        return relativeLayoutFragmentInformacoes.getVisibility() == View.VISIBLE ? true : false;
     }
 
     public void exibirInformacoes(boolean exibir) {
         if (exibir) {
-            relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
+            relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
+            exibirInformacoesDaRota(false);
         } else {
-            relativeLayoutInfoBottom.setVisibility(View.GONE);
+            relativeLayoutFragmentInformacoes.setVisibility(View.GONE);
+        }
+    }
+
+    public void exibirInformacoesDaRota(boolean exibir) {
+        if (exibir) {
+            relativeLayoutFragmentInformacoesDaRota.setVisibility(View.VISIBLE);
+        } else {
+            relativeLayoutFragmentInformacoesDaRota.setVisibility(View.GONE);
         }
     }
 
@@ -96,7 +112,7 @@ public class ActivityMain extends ActionBarActivity {
 
     public void setMarkerSelecionado(Marker markerSelecionado) {
         this.markerSelecionado = markerSelecionado;
-        relativeLayoutInfoBottom.setVisibility(View.VISIBLE);
+        relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
 
         if (localSelecionado == null) {
             localSelecionado = new Local();
@@ -108,7 +124,7 @@ public class ActivityMain extends ActionBarActivity {
     }
 
     public void exibirDialogFragmentRota() {
-        if (isInfoLocationVisible()) {
+        if (isVisibleRelativeLayoutFragmentInformacoes()) {
             DialogFragmentRota dialogFragmentRota = new DialogFragmentRota();
 
             Bundle args = new Bundle();
@@ -117,7 +133,16 @@ public class ActivityMain extends ActionBarActivity {
 
             dialogFragmentRota.show(getSupportFragmentManager(), "dialogFragmentRota");
         } else {
-            Toast.makeText(this, "Selecione um destino para gerar uma rota", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Carregando rota...", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public Local getLocal() {
+        return fragmentInformacoes.getLocal();
+    }
+
+    public void setLocal(Local local) {
+        fragmentInformacoes.setLocal(local);
     }
 }

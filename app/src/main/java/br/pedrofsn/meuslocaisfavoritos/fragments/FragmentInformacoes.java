@@ -61,11 +61,12 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         super.onStart();
         imageViewCheckin.setOnClickListener(this);
         imageViewIr.setOnClickListener(this);
+
         linearLayoutBlocoInformacoes.setOnClickListener(this);
         exibirInformacoes(false);
     }
 
-    private void exibirInformacoes(final boolean exibir) {
+    public void exibirInformacoes(final boolean exibir) {
         getActivity().runOnUiThread(
                 new Runnable() {
                     @Override
@@ -90,7 +91,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     public void setDirection(DirectionResponse directionResponse) {
         if (directionResponse != null && directionResponse.getStatus().equals("ZERO_RESULTS")) {
             Toast.makeText(getActivity(), "Sem resultados para este destino", Toast.LENGTH_SHORT).show();
-            ((ActivityMain) getActivity()).exibirInformacoes(false);
+            //((ActivityMain) getActivity()).exibirInformacoes(false);
         } else if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
             local.setLatLng(directionResponse.getLatLngDestino());
@@ -150,5 +151,13 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         DialogFragmentCheckin dialogFragmentCheckin = new DialogFragmentCheckin();
         dialogFragmentCheckin.setTargetFragment(this, 0);
         dialogFragmentCheckin.show(getChildFragmentManager(), DialogFragmentCheckin.TAG);
+    }
+
+    public Local getLocal() {
+        return local;
+    }
+
+    public void setLocal(Local local) {
+        this.local = local;
     }
 }

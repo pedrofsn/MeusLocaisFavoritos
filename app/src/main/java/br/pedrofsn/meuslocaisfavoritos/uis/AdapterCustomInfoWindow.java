@@ -8,8 +8,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-import java.util.Map;
-
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
@@ -18,12 +16,11 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 /**
  * Created by pedrofsn on 04/12/2014.
  */
-public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, View.OnClickListener {
+public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
     private Context context;
     private DAOLocal daoLocal;
-    private Map.Entry<Local, Marker> entrySelecionada;
 
     public AdapterCustomInfoWindow(Context context) {
         this.context = context;
@@ -48,10 +45,10 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, Vie
         TextView textViewNome = ((TextView) view.findViewById(R.id.textViewNome));
         TextView textViewHoras = ((TextView) view.findViewById(R.id.textViewHoras));
         TextView textViewEndereco = ((TextView) view.findViewById(R.id.textViewEndereco));
-        TextView textViewDeletar = ((TextView) view.findViewById(R.id.textViewDeletar));
-        TextView textViewIr = ((TextView) view.findViewById(R.id.textViewIr));
 
         Local local = daoLocal.readLocal(marker.getPosition());
+        ((ActivityMain) context).setLocal(local);
+        ((ActivityMain) context).setMarkerSelecionado(marker);
 
         if (local != null) {
             textViewNome.setText(local.getNome());
@@ -59,25 +56,9 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter, Vie
             textViewEndereco.setText(local.getEndereco());
 
             ((ActivityMain) context).exibirInformacoes(false);
-
-            textViewDeletar.setOnClickListener(this);
-            textViewIr.setOnClickListener(this);
+            ((ActivityMain) context).exibirInformacoesDaRota(true);
         }
 
-    }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.textViewIr:
-                if (entrySelecionada != null)
-                    ((ActivityMain) context).desenharRota();
-                break;
-            case R.id.textViewDeletar:
-                if (entrySelecionada != null)
-                    daoLocal.deleteLocal(entrySelecionada.getKey().getId());
-                break;
-
-        }
     }
 }

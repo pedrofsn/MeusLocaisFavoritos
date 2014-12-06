@@ -27,31 +27,4 @@
         android:textSize="12sp"
         android:textStyle="italic" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <TextView
-            android:id="@+id/textViewDeletar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_delete"
-            android:gravity="center"
-            android:text="Deletar" />
-
-
-        <TextView
-            android:id="@+id/textViewIr"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableTop="@android:drawable/ic_menu_directions"
-            android:gravity="center"
-            android:text="Ir" />
-
-    </LinearLayout>
-
 </LinearLayout>

@@ -16,7 +16,7 @@
             android:layout_height="match_parent" />
 
         <RelativeLayout
-            android:id="@+id/relativeLayoutInfoBottom"
+            android:id="@+id/relativeLayoutFragmentInformacoes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -25,6 +25,23 @@
             <fragment
                 android:id="@+id/fragmentInformacoes"
                 android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutFragmentInformacoesDaRota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:visibility="gone">
+
+            <fragment
+                android:id="@+id/fragmentInformacoesDaRota"
+                android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

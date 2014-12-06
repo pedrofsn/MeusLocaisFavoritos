@@ -153,6 +153,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         Marker marker = map.addMarker(markerOptions);
         ((ActivityMain) getActivity()).setMarkerSelecionado(marker);
+        ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
 
     }
 
@@ -162,12 +163,16 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     private void removerUltimoMarkerAdicionado(LatLng latLng) {
-        if (((ActivityMain) getActivity()).isInfoLocationVisible()) {
+        if (((ActivityMain) getActivity()).isVisibleRelativeLayoutFragmentInformacoes()) {
             ((ActivityMain) getActivity()).exibirInformacoes(false);
         }
 
         if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).getMarkerSelecionado().remove();
+        }
+
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
+            ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
         }
 
         if (polyline != null) {
@@ -182,7 +187,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
                 polyline.remove();
             }
 
-            // Instantiates a new Polyline object and adds points to define a rectangle
             PolylineOptions rectOptions = new PolylineOptions();
 
             for (Steps step : directionResponse.getRoutes().get(0).getLegs().get(0).getSteps()) {
@@ -191,7 +195,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
                 }
             }
 
-            // Get back the mutable Polyline
             polyline = map.addPolyline(rectOptions);
             polyline.setColor(Color.BLUE);
             map.setMyLocationEnabled(true);
@@ -242,10 +245,12 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         } else {
             removerUltimoMarkerAdicionado(marker.getPosition());
         }
+
         return false;
     }
 
     public LatLng getMinhaLocalizacao() {
         return loc;
     }
+
 }
