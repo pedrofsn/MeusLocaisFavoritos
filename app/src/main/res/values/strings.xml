@@ -3,4 +3,35 @@
 
     <string name="app_name">Meus Locais Favoritos</string>
 
+    <string name="endereco_dois_pontos">Endereço:</string>
+    <string name="rota">Rota</string>
+    <string name="locais">Locais</string>
+    <string name="qual_e_o_nome_deste_lugar_interrogacao">Qual é o nome deste lugar?</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="deletar">Deletar</string>
+    <string name="ir">Ir</string>
+    <string name="endereco_em_caixa_alta_e_dois_pontos">ENDEREÇO: </string>
+    <string name="latitude_em_caixa_alta_e_com_dois_pontos">LATITUDE: </string>
+    <string name="longitude_em_caixa_alta_e_com_dois_pontos">LONGITUDE: </string>
+    <string name="salvo_as_em_caixa_alta_e_com_dois_pontos">SALVO ÀS: </string>
+    <string name="nada_consta">---</string>
+    <string name="nao_foi_possivel_detectar_sua_localizacao">Não foi possível detectar sua localização</string>
+    <string name="insira_ao_menos_um_caractere">Insira ao menos um caractere!</string>
+    <string name="checkin">Checkin</string>
+    <string name="localizacao_salva_com_sucesso_exclamacao">Localização salva com sucesso!</string>
+    <string name="ops_nao_conseguimos_salvar_sua_localizacao">Ops... a localização no foi salva</string>
+    <string name="sem_resultados_para_este_destino">Sem resultados para este destino</string>
+    <string name="distancia_dois_pontos">Distância: </string>
+    <string name="carregando_endereco_tres_pontos">Carregando endereço...</string>
+    <string name="rota_ainda_nao_carregada">Rota ainda não carregada</string>
+    <string name="pressione_o_botao_ir_para_carregar_a_rota">Pressione o botão \'ir\' para carregar a rota</string>
+    <string name="voce_nao_possui_nenhum_endereco_salvo">Você não possui nenhum endereço salvo</string>
+
+    <string-array name="tipos_de_mapa">
+        <item>Normal</item>
+        <item>Híbrido</item>
+        <item>Satélite</item>
+        <item>Terreno</item>
+    </string-array>
+
 </resources>

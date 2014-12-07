@@ -8,7 +8,7 @@
         android:id="@+id/editTextNomeDoLugar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Qual é o nome deste lugar?" />
+        android:hint="@string/qual_e_o_nome_deste_lugar_interrogacao" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cancelar" />
+            android:text="@string/cancelar" />
 
         <Button
             android:id="@+id/buttonOk"

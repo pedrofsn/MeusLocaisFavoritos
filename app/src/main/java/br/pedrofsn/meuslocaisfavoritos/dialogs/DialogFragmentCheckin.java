@@ -33,7 +33,7 @@ public class DialogFragmentCheckin extends DialogFragment implements View.OnClic
         try {
             callback = (ICallbackDialogCheckin) getTargetFragment();
         } catch (Exception e) {
-            throw new ClassCastException("É necessário implementar a classe ICallbackDialogCheckin");
+            e.printStackTrace();
         }
     }
 
@@ -73,7 +73,7 @@ public class DialogFragmentCheckin extends DialogFragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().setTitle("Checkin");
+        getDialog().setTitle(getString(R.string.checkin));
         buttonOk.setOnClickListener(this);
         buttonCancelar.setOnClickListener(this);
     }
@@ -84,7 +84,7 @@ public class DialogFragmentCheckin extends DialogFragment implements View.OnClic
             case R.id.buttonOk:
 
                 if (editTextNomeDoLugar.getText().toString().length() < 1) {
-                    editTextNomeDoLugar.setError("Insira ao menos um caractere!");
+                    editTextNomeDoLugar.setError(getString(R.string.insira_ao_menos_um_caractere));
                 } else {
                     callback.salvarEndereco(editTextNomeDoLugar.getText().toString());
                     getDialog().dismiss();

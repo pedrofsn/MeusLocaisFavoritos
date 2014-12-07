@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="---"
-            android:textAllCaps="true" />
+            android:text="@string/nada_consta" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -29,14 +28,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Endereço: "
-                    android:textAllCaps="true" />
+                    android:text="@string/endereco_em_caixa_alta_e_dois_pontos" />
 
                 <TextView
                     android:id="@+id/textViewEndereco"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="---" />
+                    android:text="@string/nada_consta" />
             </TableRow>
 
             <TableRow>
@@ -44,14 +42,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Latitude: "
-                    android:textAllCaps="true" />
+                    android:text="@string/latitude_em_caixa_alta_e_com_dois_pontos" />
 
                 <TextView
                     android:id="@+id/textViewLatitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="---" />
+                    android:text="@string/nada_consta" />
             </TableRow>
 
             <TableRow>
@@ -59,14 +56,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Longitude: "
-                    android:textAllCaps="true" />
+                    android:text="@string/longitude_em_caixa_alta_e_com_dois_pontos" />
 
                 <TextView
                     android:id="@+id/textViewLongitude"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="---" />
+                    android:text="@string/nada_consta" />
             </TableRow>
 
             <TableRow>
@@ -74,14 +70,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Salvo às "
-                    android:textAllCaps="true" />
+                    android:text="@string/salvo_as_em_caixa_alta_e_com_dois_pontos" />
 
                 <TextView
                     android:id="@+id/textViewHorario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="---" />
+                    android:text="@string/nada_consta" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

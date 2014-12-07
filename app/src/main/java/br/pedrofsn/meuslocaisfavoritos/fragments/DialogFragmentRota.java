@@ -42,7 +42,7 @@ public class DialogFragmentRota extends DialogFragment {
     public void onStart() {
         super.onStart();
 
-        getDialog().setTitle("Rota");
+        getDialog().setTitle(getString(R.string.rota));
 
         DirectionResponse directionResponse = (DirectionResponse) getArguments().getSerializable("DirectionResponse");
 

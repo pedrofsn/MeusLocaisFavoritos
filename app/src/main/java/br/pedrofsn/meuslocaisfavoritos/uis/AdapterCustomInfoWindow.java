@@ -19,8 +19,8 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private Context context;
-    private DAOLocal daoLocal;
+    private final Context context;
+    private final DAOLocal daoLocal;
 
     public AdapterCustomInfoWindow(Context context) {
         this.context = context;

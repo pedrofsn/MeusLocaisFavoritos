@@ -16,7 +16,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
  */
 public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> {
 
-    private List<Local> listLocals;
+    private final List<Local> listLocals;
 
     public AdapterLocal(List<Local> list) {
         listLocals = list;
@@ -54,11 +54,11 @@ public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView textViewNome;
-        public TextView textViewEndereco;
-        public TextView textViewLatitude;
-        public TextView textViewLongitude;
-        public TextView textViewHorario;
+        public final TextView textViewNome;
+        public final TextView textViewEndereco;
+        public final TextView textViewLatitude;
+        public final TextView textViewLongitude;
+        public final TextView textViewHorario;
 
         public ViewHolder(View v) {
             super(v);

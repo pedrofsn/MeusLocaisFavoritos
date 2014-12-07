@@ -91,7 +91,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     @Override
     public void setDirection(DirectionResponse directionResponse) {
         if (directionResponse != null && directionResponse.getStatus().equals("ZERO_RESULTS")) {
-            Crouton.makeText(getActivity(), "Sem resultados para este destino", Style.ALERT).show();
+            Crouton.makeText(getActivity(), getString(R.string.sem_resultados_para_este_destino), Style.ALERT).show();
             //((ActivityMain) getActivity()).exibirInformacoes(false);
         } else if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
@@ -101,12 +101,12 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
             textViewTitulo.setText(directionResponse.getLatLngDestino().latitude + ", " + directionResponse.getLatLngDestino().longitude);
 
             if (directionResponse.getTextDistancia() != null)
-                textViewDistancia.setText("Distância: ".concat(directionResponse.getTextDistancia()));
+                textViewDistancia.setText(getString(R.string.distancia_dois_pontos).concat(directionResponse.getTextDistancia()));
 
             if (directionResponse.getEnderecoDoDestino() != null) {
                 textViewDescricao.setText(local.getEndereco());
             } else {
-                textViewDescricao.setText("Carregando endereço...");
+                textViewDescricao.setText(getString(R.string.carregando_endereco_tres_pontos));
             }
 
             exibirInformacoes(true);
@@ -141,9 +141,9 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         local.setDataDoCheckin(new Date().getTime());
 
         if (new DAOLocal(getActivity()).createLocal(local)) {
-            Crouton.makeText(getActivity(), "Localização salva com sucesso!", Style.CONFIRM).show();
+            Crouton.makeText(getActivity(), getString(R.string.localizacao_salva_com_sucesso_exclamacao), Style.CONFIRM).show();
         } else {
-            Crouton.makeText(getActivity(), "Ops... a localização no foi salva.", Style.ALERT).show();
+            Crouton.makeText(getActivity(), getString(R.string.ops_nao_conseguimos_salvar_sua_localizacao), Style.ALERT).show();
         }
 
     }

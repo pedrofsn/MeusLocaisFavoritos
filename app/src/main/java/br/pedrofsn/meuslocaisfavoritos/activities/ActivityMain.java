@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.maps.model.Marker;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
 import br.pedrofsn.meuslocaisfavoritos.fragments.DialogFragmentRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota;
@@ -34,7 +35,6 @@ public class ActivityMain extends ActionBarActivity {
 
     private FragmentMaps fragmentMaps;
     private FragmentInformacoes fragmentInformacoes;
-    private FragmentInformacoesDaRota fragmentInformacoesDaRota;
 
     private Marker markerSelecionado;
     private Local localSelecionado;
@@ -51,7 +51,7 @@ public class ActivityMain extends ActionBarActivity {
 
         fragmentMaps = (FragmentMaps) getSupportFragmentManager().findFragmentById(R.id.fragmentMap);
         fragmentInformacoes = ((FragmentInformacoes) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoes));
-        fragmentInformacoesDaRota = ((FragmentInformacoesDaRota) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoesDaRota));
+        FragmentInformacoesDaRota fragmentInformacoesDaRota = ((FragmentInformacoesDaRota) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoesDaRota));
 
     }
 
@@ -69,8 +69,12 @@ public class ActivityMain extends ActionBarActivity {
                 exibirDialogFragmentRota();
                 return true;
             case R.id.listaDeLocais:
-                Intent i = new Intent(this, ActivityLocaisFavoritos.class);
-                startActivityForResult(i, REQUEST_CODE);
+                if (new DAOLocal(this).countLocal() > 0) {
+                    Intent i = new Intent(this, ActivityLocaisFavoritos.class);
+                    startActivityForResult(i, REQUEST_CODE);
+                } else {
+                    Crouton.makeText(this, getString(R.string.voce_nao_possui_nenhum_endereco_salvo), Style.INFO).show();
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -93,7 +97,7 @@ public class ActivityMain extends ActionBarActivity {
     }
 
     public boolean isVisibleRelativeLayoutFragmentInformacoes() {
-        return relativeLayoutFragmentInformacoes.getVisibility() == View.VISIBLE ? true : false;
+        return relativeLayoutFragmentInformacoes.getVisibility() == View.VISIBLE;
     }
 
     public void exibirInformacoes(boolean exibir) {
@@ -148,7 +152,7 @@ public class ActivityMain extends ActionBarActivity {
             relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
             new AsyncTaskConsultaDirection(fragmentInformacoes, fragmentMaps.getMinhaLocalizacao(), markerSelecionado.getPosition()).execute();
         } else {
-            Crouton.makeText(this, "Não foi possível detectar sua localização", Style.ALERT).show();
+            Crouton.makeText(this, getString(R.string.nao_foi_possivel_detectar_sua_localizacao), Style.ALERT).show();
         }
     }
 

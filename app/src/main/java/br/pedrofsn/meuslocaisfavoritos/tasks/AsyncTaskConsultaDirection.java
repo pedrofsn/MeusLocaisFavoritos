@@ -25,9 +25,9 @@ import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
  */
 public class AsyncTaskConsultaDirection extends AsyncTask<Void, Void, DirectionResponse> {
 
-    private IAsyncTaskConsultaDirection callback;
-    private LatLng pontoDeOrigem;
-    private LatLng pontoDeDestino;
+    private final IAsyncTaskConsultaDirection callback;
+    private final LatLng pontoDeOrigem;
+    private final LatLng pontoDeDestino;
 
     public AsyncTaskConsultaDirection(IAsyncTaskConsultaDirection callback, LatLng pontoDeOrigem, LatLng pontoDeDestino) {
         this.callback = callback;
@@ -48,7 +48,7 @@ public class AsyncTaskConsultaDirection extends AsyncTask<Void, Void, DirectionR
             callback.setDirection(result);
     }
 
-    public DirectionResponse getDirectionResponse(LatLng start, LatLng end /*, String mode */) {
+    private DirectionResponse getDirectionResponse(LatLng start, LatLng end /*, String mode */) {
         String url = "http://maps.googleapis.com/maps/api/directions/json?"
                 + "origin=" + start.latitude + "," + start.longitude
                 + "&destination=" + end.latitude + "," + end.longitude

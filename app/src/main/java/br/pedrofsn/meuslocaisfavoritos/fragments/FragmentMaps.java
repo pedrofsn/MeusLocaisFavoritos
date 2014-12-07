@@ -73,8 +73,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     public void onStart() {
         super.onStart();
         daoLocal = new DAOLocal(getActivity());
-        String[] arrayTiposMapa = {"Normal", "Híbrido", "Satélite", "Terreno"};
-        spinnerMapMode.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, arrayTiposMapa));
+        spinnerMapMode.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.tipos_de_mapa)));
         spinnerMapMode.setOnItemSelectedListener(this);
     }
 
@@ -149,7 +148,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public void onMapLongClick(LatLng latLng) {
-        removerUltimoMarkerAdicionado(latLng);
+        removerUltimoMarkerAdicionado();
 
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
@@ -161,10 +160,10 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public void onMapClick(LatLng latLng) {
-        removerUltimoMarkerAdicionado(latLng);
+        removerUltimoMarkerAdicionado();
     }
 
-    private void removerUltimoMarkerAdicionado(LatLng latLng) {
+    private void removerUltimoMarkerAdicionado() {
         if (((ActivityMain) getActivity()).isVisibleRelativeLayoutFragmentInformacoes()) {
             ((ActivityMain) getActivity()).exibirInformacoes(false);
         }
@@ -245,7 +244,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             marker.hideInfoWindow();
             return true;
         } else {
-            removerUltimoMarkerAdicionado(marker.getPosition());
+            removerUltimoMarkerAdicionado();
         }
 
         return false;

@@ -15,25 +15,21 @@ import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
  */
 public class ActivityLocaisFavoritos extends ActionBarActivity {
 
-    public final static int ATUALIZAR_MAPA = 10;
-
-    private RecyclerView.Adapter adapter;
-    private DAOLocal daoLocal;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locais_favoritos);
 
-        daoLocal = new DAOLocal(this);
+        DAOLocal daoLocal = new DAOLocal(this);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new AdapterLocal(daoLocal.readLocal());
+        RecyclerView.Adapter adapter = new AdapterLocal(daoLocal.readLocal());
         recyclerView.setAdapter(adapter);
+
     }
 
     @Override

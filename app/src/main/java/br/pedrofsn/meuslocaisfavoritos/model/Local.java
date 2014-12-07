@@ -19,10 +19,6 @@ public class Local implements Serializable {
 
     }
 
-    public Local(String endereco) {
-        this.endereco = endereco;
-    }
-
     public Date getDataDoCheckin() {
         return dataDoCheckin;
     }

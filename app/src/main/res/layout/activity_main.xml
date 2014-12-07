@@ -1,53 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+
+    <fragment
+        android:id="@+id/fragmentMap"
+        android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutFragmentInformacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone">
 
         <fragment
-            android:id="@+id/fragmentMap"
-            android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps"
+            android:id="@+id/fragmentInformacoes"
+            android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutFragmentInformacoes"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:visibility="gone">
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp" />
 
-            <fragment
-                android:id="@+id/fragmentInformacoes"
-                android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="10dp" />
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/relativeLayoutFragmentInformacoesDaRota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone">
 
-        <RelativeLayout
-            android:id="@+id/relativeLayoutFragmentInformacoesDaRota"
-            android:layout_width="wrap_content"
+        <fragment
+            android:id="@+id/fragmentInformacoesDaRota"
+            android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:visibility="gone">
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp" />
 
-            <fragment
-                android:id="@+id/fragmentInformacoesDaRota"
-                android:name="br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="10dp" />
+    </RelativeLayout>
 
-        </RelativeLayout>
-
-    </FrameLayout>
-</LinearLayout>
+</FrameLayout>

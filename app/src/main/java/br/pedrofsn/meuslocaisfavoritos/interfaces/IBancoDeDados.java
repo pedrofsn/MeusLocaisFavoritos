@@ -21,4 +21,6 @@ public interface IBancoDeDados {
 
     public boolean existsLocal(LatLng latLng);
 
+    public int countLocal();
+
 }

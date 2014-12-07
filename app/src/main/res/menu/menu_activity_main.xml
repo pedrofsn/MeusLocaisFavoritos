@@ -5,13 +5,13 @@
     <item
         android:id="@+id/exibirRota"
         android:icon="@android:drawable/ic_menu_info_details"
-        android:title="Rota"
+        android:title="@string/rota"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/listaDeLocais"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Locais"
+        android:title="@string/locais"
         app:showAsAction="never" />
 
 </menu>

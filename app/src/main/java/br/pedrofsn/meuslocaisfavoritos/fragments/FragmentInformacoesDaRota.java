@@ -58,7 +58,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
                 if (((ActivityMain) getActivity()).getMarkerSelecionado() != null) {
                     ((ActivityMain) getActivity()).desenharRota();
                 } else {
-                    Crouton.makeText(getActivity(), "Rota ainda não carregada", Style.INFO).show();
+                    Crouton.makeText(getActivity(), getString(R.string.rota_ainda_nao_carregada), Style.INFO).show();
                 }
                 break;
 
@@ -66,7 +66,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
                 if (((ActivityMain) getActivity()).isVisibleRelativeLayoutFragmentInformacoes()) {
                     ((ActivityMain) getActivity()).exibirDialogFragmentRota();
                 } else {
-                    Crouton.makeText(getActivity(), "Pressione o botão ir para carregar a rota", Style.INFO).show();
+                    Crouton.makeText(getActivity(), getString(R.string.pressione_o_botao_ir_para_carregar_a_rota), Style.INFO).show();
                 }
 
                 break;
