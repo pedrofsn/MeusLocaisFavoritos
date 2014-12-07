@@ -69,7 +69,7 @@ public class ActivityMain extends ActionBarActivity {
                 exibirDialogFragmentRota();
                 return true;
             case R.id.listaDeLocais:
-                if (new DAOLocal(this).countLocal() > 0) {
+                if (DAOLocal.getInstancia().countLocal() > 0) {
                     Intent i = new Intent(this, ActivityLocaisFavoritos.class);
                     startActivityForResult(i, REQUEST_CODE);
                 } else {

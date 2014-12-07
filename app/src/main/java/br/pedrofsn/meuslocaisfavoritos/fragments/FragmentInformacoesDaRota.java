@@ -49,7 +49,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.textViewDeletar:
-                new DAOLocal(getActivity()).deleteLocal(((ActivityMain) getActivity()).getLocal().getId());
+                DAOLocal.getInstancia().deleteLocal(((ActivityMain) getActivity()).getLocal().getId());
                 ((ActivityMain) getActivity()).atualizarMapa();
                 ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
                 break;

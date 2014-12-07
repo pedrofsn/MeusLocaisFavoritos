@@ -20,14 +20,12 @@ public class ActivityLocaisFavoritos extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locais_favoritos);
 
-        DAOLocal daoLocal = new DAOLocal(this);
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView.Adapter adapter = new AdapterLocal(daoLocal.readLocal());
+        RecyclerView.Adapter adapter = new AdapterLocal(DAOLocal.getInstancia().readLocal());
         recyclerView.setAdapter(adapter);
 
     }

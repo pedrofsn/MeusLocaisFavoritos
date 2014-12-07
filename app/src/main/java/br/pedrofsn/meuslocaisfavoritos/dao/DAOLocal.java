@@ -21,7 +21,6 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
 
     private static final String DATABASE_NAME = "MeusLocaisFavoritos.db";
     private static final int VERSION = 6;
-
     private static final String TABELA_LOCAIS_FAVORITOS = "LOCAIS_FAVORITOS";
     private static final String COLUNA_ID = "ID";
     private static final String COLUNA_ENDERECO = "ENDERECO";
@@ -29,9 +28,22 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     private static final String COLUNA_LATITUDE = "LATITUDE";
     private static final String COLUNA_LONGITUDE = "LONGITUDE";
     private static final String COLUNA_DATA_CHECKIN = "DATA_CHECKIN";
+    private static DAOLocal instancia = null;
+    private Context context;
 
-    public DAOLocal(Context context) {
+    private DAOLocal(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
+        this.context = context;
+    }
+
+    public static DAOLocal getInstancia() {
+        return instancia;
+    }
+
+    public static void instanciarDao(Context ctx) {
+        if (instancia == null && ctx != null) {
+            instancia = new DAOLocal(ctx.getApplicationContext());
+        }
     }
 
     @Override

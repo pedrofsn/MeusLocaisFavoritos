@@ -140,7 +140,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         local.setNome(nome);
         local.setDataDoCheckin(new Date().getTime());
 
-        if (new DAOLocal(getActivity()).createLocal(local)) {
+        if (DAOLocal.getInstancia().createLocal(local)) {
             Crouton.makeText(getActivity(), getString(R.string.localizacao_salva_com_sucesso_exclamacao), Style.CONFIRM).show();
         } else {
             Crouton.makeText(getActivity(), getString(R.string.ops_nao_conseguimos_salvar_sua_localizacao), Style.ALERT).show();

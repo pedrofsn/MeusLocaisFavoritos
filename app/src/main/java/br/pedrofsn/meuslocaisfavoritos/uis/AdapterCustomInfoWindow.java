@@ -20,13 +20,11 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
     private final Context context;
-    private final DAOLocal daoLocal;
 
     public AdapterCustomInfoWindow(Context context) {
         this.context = context;
         LayoutInflater inflater = LayoutInflater.from(context);
         mWindow = inflater.inflate(R.layout.marker_info_window, null);
-        daoLocal = new DAOLocal(context);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView textViewHoras = ((TextView) view.findViewById(R.id.textViewHoras));
         TextView textViewEndereco = ((TextView) view.findViewById(R.id.textViewEndereco));
 
-        Local local = daoLocal.readLocal(marker.getPosition());
+        Local local = DAOLocal.getInstancia().readLocal(marker.getPosition());
         ((ActivityMain) context).setLocal(local);
         ((ActivityMain) context).setMarkerSelecionado(marker);
 

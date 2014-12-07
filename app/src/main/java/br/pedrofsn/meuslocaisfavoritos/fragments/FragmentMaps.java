@@ -45,7 +45,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     private Spinner spinnerMapMode;
 
     private LocationManager locationManager;
-    private DAOLocal daoLocal;
     private Polyline polyline;
     private LatLng loc;
 
@@ -72,7 +71,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     @Override
     public void onStart() {
         super.onStart();
-        daoLocal = new DAOLocal(getActivity());
         spinnerMapMode.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.tipos_de_mapa)));
         spinnerMapMode.setOnItemSelectedListener(this);
     }
@@ -117,7 +115,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     private void carregarLocaisNoMapa() {
-        for (Local l : new DAOLocal(getActivity()).readLocal()) {
+        for (Local l : DAOLocal.getInstancia().readLocal()) {
             map.addMarker(new MarkerOptions().position(l.getLatLng()));
         }
     }
@@ -168,11 +166,11 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             ((ActivityMain) getActivity()).exibirInformacoes(false);
         }
 
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !DAOLocal.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).getMarkerSelecionado().remove();
         }
 
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && daoLocal.existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && DAOLocal.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
         }
 
@@ -240,7 +238,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (!new DAOLocal(getActivity()).existsLocal(marker.getPosition())) {
+        if (!DAOLocal.getInstancia().existsLocal(marker.getPosition())) {
             marker.hideInfoWindow();
             return true;
         } else {
