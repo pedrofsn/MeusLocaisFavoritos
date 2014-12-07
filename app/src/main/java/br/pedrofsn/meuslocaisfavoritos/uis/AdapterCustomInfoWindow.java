@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.Marker;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 
 /**
@@ -44,7 +44,7 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView textViewHoras = ((TextView) view.findViewById(R.id.textViewHoras));
         TextView textViewEndereco = ((TextView) view.findViewById(R.id.textViewEndereco));
 
-        Local local = DAOLocal.getInstancia().readLocal(marker.getPosition());
+        Local local = DataBaseHelper.getInstancia().readLocal(marker.getPosition());
         ((ActivityMain) context).setLocal(local);
         ((ActivityMain) context).setMarkerSelecionado(marker);
 

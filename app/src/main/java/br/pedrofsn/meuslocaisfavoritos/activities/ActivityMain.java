@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import com.google.android.gms.maps.model.Marker;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.fragments.DialogFragmentRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota;
@@ -69,7 +69,7 @@ public class ActivityMain extends ActionBarActivity {
                 exibirDialogFragmentRota();
                 return true;
             case R.id.listaDeLocais:
-                if (DAOLocal.getInstancia().countLocal() > 0) {
+                if (DataBaseHelper.getInstancia().countLocal() > 0) {
                     Intent i = new Intent(this, ActivityLocaisFavoritos.class);
                     startActivityForResult(i, REQUEST_CODE);
                 } else {

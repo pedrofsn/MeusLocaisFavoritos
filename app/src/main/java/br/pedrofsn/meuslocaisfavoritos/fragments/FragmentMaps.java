@@ -30,7 +30,7 @@ import java.util.List;
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.controller.LocationController;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.Steps;
@@ -115,7 +115,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
     }
 
     private void carregarLocaisNoMapa() {
-        for (Local l : DAOLocal.getInstancia().readLocal()) {
+        for (Local l : DataBaseHelper.getInstancia().readLocal()) {
             map.addMarker(new MarkerOptions().position(l.getLatLng()));
         }
     }
@@ -166,11 +166,11 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
             ((ActivityMain) getActivity()).exibirInformacoes(false);
         }
 
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !DAOLocal.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !DataBaseHelper.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).getMarkerSelecionado().remove();
         }
 
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && DAOLocal.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
+        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && DataBaseHelper.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
         }
 
@@ -238,7 +238,7 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (!DAOLocal.getInstancia().existsLocal(marker.getPosition())) {
+        if (!DataBaseHelper.getInstancia().existsLocal(marker.getPosition())) {
             marker.hideInfoWindow();
             return true;
         } else {

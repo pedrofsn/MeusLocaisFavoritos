@@ -17,7 +17,7 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 /**
  * Created by pedrofsn on 04/12/2014.
  */
-public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
+public class DataBaseHelper extends SQLiteOpenHelper implements IBancoDeDados {
 
     private static final String DATABASE_NAME = "MeusLocaisFavoritos.db";
     private static final int VERSION = 6;
@@ -28,21 +28,21 @@ public class DAOLocal extends SQLiteOpenHelper implements IBancoDeDados {
     private static final String COLUNA_LATITUDE = "LATITUDE";
     private static final String COLUNA_LONGITUDE = "LONGITUDE";
     private static final String COLUNA_DATA_CHECKIN = "DATA_CHECKIN";
-    private static DAOLocal instancia = null;
+    private static DataBaseHelper instancia = null;
     private Context context;
 
-    private DAOLocal(Context context) {
+    private DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
         this.context = context;
     }
 
-    public static DAOLocal getInstancia() {
+    public static DataBaseHelper getInstancia() {
         return instancia;
     }
 
     public static void instanciarDao(Context ctx) {
         if (instancia == null && ctx != null) {
-            instancia = new DAOLocal(ctx.getApplicationContext());
+            instancia = new DataBaseHelper(ctx.getApplicationContext());
         }
     }
 

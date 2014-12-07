@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -49,7 +49,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.textViewDeletar:
-                DAOLocal.getInstancia().deleteLocal(((ActivityMain) getActivity()).getLocal().getId());
+                DataBaseHelper.getInstancia().deleteLocal(((ActivityMain) getActivity()).getLocal().getId());
                 ((ActivityMain) getActivity()).atualizarMapa();
                 ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
                 break;

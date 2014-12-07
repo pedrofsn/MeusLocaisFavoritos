@@ -15,7 +15,7 @@ import java.util.Date;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
-import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.dialogs.DialogFragmentCheckin;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
@@ -140,7 +140,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         local.setNome(nome);
         local.setDataDoCheckin(new Date().getTime());
 
-        if (DAOLocal.getInstancia().createLocal(local)) {
+        if (DataBaseHelper.getInstancia().createLocal(local)) {
             Crouton.makeText(getActivity(), getString(R.string.localizacao_salva_com_sucesso_exclamacao), Style.CONFIRM).show();
         } else {
             Crouton.makeText(getActivity(), getString(R.string.ops_nao_conseguimos_salvar_sua_localizacao), Style.ALERT).show();
