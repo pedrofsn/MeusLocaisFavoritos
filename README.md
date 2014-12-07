@@ -51,9 +51,10 @@ Bibliotecas utilizadas no projeto:
 Dados técnicos do aplicativo
 ===================
 - Compilado com a API 21 (Android 5.0) por utilizar o tema Material Design;
-- minSDK com API  10 (Android 2.3.3);
+- MinSDK com API  10 (Android 2.3.3);
 - É necessário que o smartphone esteja conectado à internet para consulta de rotas, endereço e distância;
 - Permissões exigidas: INTERNET, ACCESS_NETWORK_STATE, WRITE_EXTERNAL_STORAGE, READ_GSERVICES, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION.
 
 
-###### Documentação referente ao aplicativo na versão 1.0 ######
+###### Documentação referente ao projeto na [versão 1.0] (https://github.com/pedrofsn/MeusLocaisFavoritos/releases/tag/Versao1.0) ######
+
