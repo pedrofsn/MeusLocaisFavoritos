@@ -125,18 +125,20 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        switch (i) {
-            case 1:
-                map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                break;
-            case 2:
-                map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                break;
-            case 3:
-                map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                break;
-            default:
-                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (map != null) {
+            switch (i) {
+                case 1:
+                    map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                    break;
+                case 2:
+                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    break;
+                case 3:
+                    map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                    break;
+                default:
+                    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            }
         }
     }
 
@@ -253,4 +255,8 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
         return loc;
     }
 
+    public void atualizarMapa() {
+        map.clear();
+        carregarLocaisNoMapa();
+    }
 }

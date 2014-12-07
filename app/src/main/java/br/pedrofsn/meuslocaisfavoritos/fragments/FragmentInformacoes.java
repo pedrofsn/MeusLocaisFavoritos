@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Date;
 
@@ -22,6 +21,8 @@ import br.pedrofsn.meuslocaisfavoritos.interfaces.IAsyncTaskConsultaDirection;
 import br.pedrofsn.meuslocaisfavoritos.interfaces.ICallbackDialogCheckin;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by pedro.sousa on 03/12/2014.
@@ -90,7 +91,7 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
     @Override
     public void setDirection(DirectionResponse directionResponse) {
         if (directionResponse != null && directionResponse.getStatus().equals("ZERO_RESULTS")) {
-            Toast.makeText(getActivity(), "Sem resultados para este destino", Toast.LENGTH_SHORT).show();
+            Crouton.makeText(getActivity(), "Sem resultados para este destino", Style.ALERT).show();
             //((ActivityMain) getActivity()).exibirInformacoes(false);
         } else if (directionResponse != null) {
             ((ActivityMain) getActivity()).setDirectionResponse(directionResponse);
@@ -140,9 +141,9 @@ public class FragmentInformacoes extends Fragment implements IAsyncTaskConsultaD
         local.setDataDoCheckin(new Date().getTime());
 
         if (new DAOLocal(getActivity()).createLocal(local)) {
-            Toast.makeText(getActivity(), "Localização salva com sucesso!", Toast.LENGTH_SHORT).show();
+            Crouton.makeText(getActivity(), "Localização salva com sucesso!", Style.CONFIRM).show();
         } else {
-            Toast.makeText(getActivity(), "Ops... a localização no foi salva.", Toast.LENGTH_SHORT).show();
+            Crouton.makeText(getActivity(), "Ops... a localização no foi salva.", Style.ALERT).show();
         }
 
     }

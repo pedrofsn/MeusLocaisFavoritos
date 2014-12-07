@@ -7,11 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.activities.ActivityMain;
 import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by pedrofsn on 06/12/2014.
@@ -49,6 +50,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
         switch (view.getId()) {
             case R.id.textViewDeletar:
                 new DAOLocal(getActivity()).deleteLocal(((ActivityMain) getActivity()).getLocal().getId());
+                ((ActivityMain) getActivity()).atualizarMapa();
                 ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
                 break;
 
@@ -56,7 +58,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
                 if (((ActivityMain) getActivity()).getMarkerSelecionado() != null) {
                     ((ActivityMain) getActivity()).desenharRota();
                 } else {
-                    Toast.makeText(getActivity(), "Rota ainda não carregada", Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(getActivity(), "Rota ainda não carregada", Style.INFO).show();
                 }
                 break;
 
@@ -64,7 +66,7 @@ public class FragmentInformacoesDaRota extends Fragment implements View.OnClickL
                 if (((ActivityMain) getActivity()).isVisibleRelativeLayoutFragmentInformacoes()) {
                     ((ActivityMain) getActivity()).exibirDialogFragmentRota();
                 } else {
-                    Toast.makeText(getActivity(), "Pressione o botão ir para carregar a rota", Toast.LENGTH_SHORT).show();
+                    Crouton.makeText(getActivity(), "Pressione o botão ir para carregar a rota", Style.INFO).show();
                 }
 
                 break;

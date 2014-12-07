@@ -36,18 +36,6 @@ public class AsyncTaskConsultaDirection extends AsyncTask<Void, Void, DirectionR
     }
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        if (callback == null || pontoDeOrigem == null || pontoDeDestino == null) {
-            try {
-                finalize();
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-        }
-    }
-
-    @Override
     protected DirectionResponse doInBackground(Void... voids) {
         callback.processandoAsyncTaskDirection();
         return getDirectionResponse(pontoDeOrigem, pontoDeDestino);

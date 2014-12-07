@@ -19,13 +19,15 @@ import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
 import br.pedrofsn.meuslocaisfavoritos.tasks.AsyncTaskConsultaDirection;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 /**
  * Created by pedro.sousa on 03/12/2014.
  */
 public class ActivityMain extends ActionBarActivity {
 
-    public static boolean CUSTOM_INFO_WINDOW_FOI_RENDERIZADA = false;
+    private static final int REQUEST_CODE = 10;
 
     private RelativeLayout relativeLayoutFragmentInformacoes;
     private RelativeLayout relativeLayoutFragmentInformacoesDaRota;
@@ -67,11 +69,27 @@ public class ActivityMain extends ActionBarActivity {
                 exibirDialogFragmentRota();
                 return true;
             case R.id.listaDeLocais:
-                startActivity(new Intent(this, ActivityLocaisFavoritos.class));
+                Intent i = new Intent(this, ActivityLocaisFavoritos.class);
+                startActivityForResult(i, REQUEST_CODE);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            if (data.hasExtra("atualizarMapa")) {
+                if (data.getExtras().getBoolean("atualizarMapa")) {
+                    atualizarMapa();
+                }
+            }
+        }
+    }
+
+    public void atualizarMapa() {
+        fragmentMaps.atualizarMapa();
     }
 
     public boolean isVisibleRelativeLayoutFragmentInformacoes() {
@@ -115,7 +133,6 @@ public class ActivityMain extends ActionBarActivity {
 
     public void setMarkerSelecionado(Marker markerSelecionado) {
         this.markerSelecionado = markerSelecionado;
-        relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
 
         if (localSelecionado == null) {
             localSelecionado = new Local();
@@ -123,7 +140,16 @@ public class ActivityMain extends ActionBarActivity {
 
         localSelecionado.setLatLng(markerSelecionado.getPosition());
 
-        new AsyncTaskConsultaDirection(fragmentInformacoes, fragmentMaps.getMinhaLocalizacao(), markerSelecionado.getPosition()).execute();
+        dispararAsyncTask();
+    }
+
+    private void dispararAsyncTask() {
+        if (fragmentInformacoes != null && fragmentMaps.getMinhaLocalizacao() != null && markerSelecionado.getPosition() != null) {
+            relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
+            new AsyncTaskConsultaDirection(fragmentInformacoes, fragmentMaps.getMinhaLocalizacao(), markerSelecionado.getPosition()).execute();
+        } else {
+            Crouton.makeText(this, "Não foi possível detectar sua localização", Style.ALERT).show();
+        }
     }
 
     public void exibirDialogFragmentRota() {
@@ -138,7 +164,6 @@ public class ActivityMain extends ActionBarActivity {
         }
     }
 
-
     public Local getLocal() {
         return fragmentInformacoes.getLocal();
     }
@@ -146,4 +171,5 @@ public class ActivityMain extends ActionBarActivity {
     public void setLocal(Local local) {
         fragmentInformacoes.setLocal(local);
     }
+
 }

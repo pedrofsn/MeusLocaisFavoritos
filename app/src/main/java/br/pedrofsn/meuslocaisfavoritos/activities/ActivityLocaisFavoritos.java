@@ -1,5 +1,6 @@
 package br.pedrofsn.meuslocaisfavoritos.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,8 @@ import br.pedrofsn.meuslocaisfavoritos.dao.DAOLocal;
  * Created by pedrofsn on 06/12/2014.
  */
 public class ActivityLocaisFavoritos extends ActionBarActivity {
+
+    public final static int ATUALIZAR_MAPA = 10;
 
     private RecyclerView.Adapter adapter;
     private DAOLocal daoLocal;
@@ -31,6 +34,14 @@ public class ActivityLocaisFavoritos extends ActionBarActivity {
 
         adapter = new AdapterLocal(daoLocal.readLocal());
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("atualizarMapa", true);
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 
 }
