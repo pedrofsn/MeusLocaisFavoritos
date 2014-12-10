@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.adapter.AdapterLocal;
-import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 
 /**
  * Created by pedrofsn on 06/12/2014.
@@ -25,7 +24,7 @@ public class ActivityLocaisFavoritos extends ActionBarActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView.Adapter adapter = new AdapterLocal(DataBaseHelper.getInstancia().readLocal());
+        RecyclerView.Adapter adapter = new AdapterLocal(this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -34,6 +33,13 @@ public class ActivityLocaisFavoritos extends ActionBarActivity {
     public void finish() {
         Intent intent = new Intent();
         intent.putExtra("atualizarMapa", true);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
+
+    public void finish(long id) {
+        Intent intent = new Intent();
+        intent.putExtra("tracarRota", id);
         setResult(RESULT_OK, intent);
         super.finish();
     }

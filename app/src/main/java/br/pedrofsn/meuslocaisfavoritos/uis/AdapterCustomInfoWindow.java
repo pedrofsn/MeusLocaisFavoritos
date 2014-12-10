@@ -45,7 +45,6 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
         TextView textViewEndereco = ((TextView) view.findViewById(R.id.textViewEndereco));
 
         Local local = DataBaseHelper.getInstancia().readLocal(marker.getPosition());
-        ((ActivityMain) context).setLocal(local);
         ((ActivityMain) context).setMarkerSelecionado(marker);
 
         if (local != null) {
@@ -54,7 +53,6 @@ public class AdapterCustomInfoWindow implements GoogleMap.InfoWindowAdapter {
             textViewEndereco.setText(local.getEndereco());
 
             ((ActivityMain) context).exibirInformacoes(false);
-            ((ActivityMain) context).exibirInformacoesDaRota(true);
         }
 
 

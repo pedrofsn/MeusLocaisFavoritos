@@ -1,5 +1,6 @@
 package br.pedrofsn.meuslocaisfavoritos.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
+import br.pedrofsn.meuslocaisfavoritos.activities.ActivityLocaisFavoritos;
+import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 
 /**
@@ -17,9 +20,11 @@ import br.pedrofsn.meuslocaisfavoritos.model.Local;
 public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> {
 
     private final List<Local> listLocals;
+    private final Context context;
 
-    public AdapterLocal(List<Local> list) {
-        listLocals = list;
+    public AdapterLocal(Context context) {
+        this.context = context;
+        this.listLocals = DataBaseHelper.getInstancia().readLocal();
     }
 
     @Override
@@ -34,17 +39,32 @@ public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> 
         holder.textViewLatitude.setTag(holder);
         holder.textViewLongitude.setTag(holder);
         holder.textViewHorario.setTag(holder);
+        holder.textViewDeletar.setTag(holder);
+        holder.textViewIr.setTag(holder);
 
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.textViewNome.setText(listLocals.get(position).getNome());
         holder.textViewEndereco.setText(listLocals.get(position).getEndereco());
         holder.textViewLatitude.setText(String.valueOf(listLocals.get(position).getLatitude()));
         holder.textViewLongitude.setText(String.valueOf(listLocals.get(position).getLongitude()));
         holder.textViewHorario.setText(listLocals.get(position).getDataDoCheckin().toString());
+        holder.textViewDeletar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataBaseHelper.getInstancia().deleteLocal(listLocals.get(position).getId());
+                ((ActivityLocaisFavoritos) context).finish();
+            }
+        });
+        holder.textViewIr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((ActivityLocaisFavoritos) context).finish(listLocals.get(position).getId());
+            }
+        });
     }
 
     @Override
@@ -59,6 +79,8 @@ public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> 
         public final TextView textViewLatitude;
         public final TextView textViewLongitude;
         public final TextView textViewHorario;
+        public final TextView textViewIr;
+        public final TextView textViewDeletar;
 
         public ViewHolder(View v) {
             super(v);
@@ -67,6 +89,8 @@ public class AdapterLocal extends RecyclerView.Adapter<AdapterLocal.ViewHolder> 
             textViewLatitude = (TextView) v.findViewById(R.id.textViewLatitude);
             textViewLongitude = (TextView) v.findViewById(R.id.textViewLongitude);
             textViewHorario = (TextView) v.findViewById(R.id.textViewHorario);
+            textViewIr = (TextView) v.findViewById(R.id.textViewIr);
+            textViewDeletar = (TextView) v.findViewById(R.id.textViewDeletar);
         }
     }
 }

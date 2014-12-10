@@ -150,10 +150,13 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
         MarkerOptions markerOptions = new MarkerOptions().position(latLng);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-        Marker marker = map.addMarker(markerOptions);
+        Marker marker = addMarkerToMap(markerOptions);
         ((ActivityMain) getActivity()).setMarkerSelecionado(marker);
-        ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
 
+    }
+
+    public Marker addMarkerToMap(MarkerOptions markerOptions) {
+        return map.addMarker(markerOptions);
     }
 
     @Override
@@ -168,10 +171,6 @@ public class FragmentMaps extends Fragment implements GoogleMap.OnMapLongClickLi
 
         if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && !DataBaseHelper.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
             ((ActivityMain) getActivity()).getMarkerSelecionado().remove();
-        }
-
-        if (((ActivityMain) getActivity()).getMarkerSelecionado() != null && DataBaseHelper.getInstancia().existsLocal(((ActivityMain) getActivity()).getMarkerSelecionado().getPosition())) {
-            ((ActivityMain) getActivity()).exibirInformacoesDaRota(false);
         }
 
         if (polyline != null) {

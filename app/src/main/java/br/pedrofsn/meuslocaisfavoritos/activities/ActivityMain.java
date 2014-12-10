@@ -10,12 +10,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import br.pedrofsn.meuslocaisfavoritos.R;
 import br.pedrofsn.meuslocaisfavoritos.dao.DataBaseHelper;
 import br.pedrofsn.meuslocaisfavoritos.fragments.DialogFragmentRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoes;
-import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentInformacoesDaRota;
 import br.pedrofsn.meuslocaisfavoritos.fragments.FragmentMaps;
 import br.pedrofsn.meuslocaisfavoritos.model.Local;
 import br.pedrofsn.meuslocaisfavoritos.model.directions.DirectionResponse;
@@ -31,7 +31,6 @@ public class ActivityMain extends ActionBarActivity {
     private static final int REQUEST_CODE = 10;
 
     private RelativeLayout relativeLayoutFragmentInformacoes;
-    private RelativeLayout relativeLayoutFragmentInformacoesDaRota;
 
     private FragmentMaps fragmentMaps;
     private FragmentInformacoes fragmentInformacoes;
@@ -47,11 +46,9 @@ public class ActivityMain extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         relativeLayoutFragmentInformacoes = (RelativeLayout) findViewById(R.id.relativeLayoutFragmentInformacoes);
-        relativeLayoutFragmentInformacoesDaRota = (RelativeLayout) findViewById(R.id.relativeLayoutFragmentInformacoesDaRota);
 
         fragmentMaps = (FragmentMaps) getSupportFragmentManager().findFragmentById(R.id.fragmentMap);
         fragmentInformacoes = ((FragmentInformacoes) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoes));
-        FragmentInformacoesDaRota fragmentInformacoesDaRota = ((FragmentInformacoesDaRota) getSupportFragmentManager().findFragmentById(R.id.fragmentInformacoesDaRota));
 
     }
 
@@ -88,6 +85,10 @@ public class ActivityMain extends ActionBarActivity {
                 if (data.getExtras().getBoolean("atualizarMapa")) {
                     atualizarMapa();
                 }
+            } else if (data.hasExtra("tracarRota")) {
+                Local local = DataBaseHelper.getInstancia().readLocal(data.getExtras().getLong("tracarRota"));
+                setMarkerSelecionado(fragmentMaps.addMarkerToMap(new MarkerOptions().position(local.getLatLng())));
+                dispararAsyncTask();
             }
         }
     }
@@ -103,17 +104,8 @@ public class ActivityMain extends ActionBarActivity {
     public void exibirInformacoes(boolean exibir) {
         if (exibir) {
             relativeLayoutFragmentInformacoes.setVisibility(View.VISIBLE);
-            exibirInformacoesDaRota(false);
         } else {
             relativeLayoutFragmentInformacoes.setVisibility(View.GONE);
-        }
-    }
-
-    public void exibirInformacoesDaRota(boolean exibir) {
-        if (exibir) {
-            relativeLayoutFragmentInformacoesDaRota.setVisibility(View.VISIBLE);
-        } else {
-            relativeLayoutFragmentInformacoesDaRota.setVisibility(View.GONE);
         }
     }
 
@@ -166,14 +158,6 @@ public class ActivityMain extends ActionBarActivity {
 
             dialogFragmentRota.show(getSupportFragmentManager(), "dialogFragmentRota");
         }
-    }
-
-    public Local getLocal() {
-        return fragmentInformacoes.getLocal();
-    }
-
-    public void setLocal(Local local) {
-        fragmentInformacoes.setLocal(local);
     }
 
 }

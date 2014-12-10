@@ -148,6 +148,32 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IBancoDeDados {
         }
     }
 
+    @Override
+    public Local readLocal(long id) {
+        SQLiteDatabase database = getReadableDatabase();
+        Cursor cursor = null;
+
+        try {
+            Local local = null;
+            cursor = database.rawQuery("select * from " + TABELA_LOCAIS_FAVORITOS + " where " + COLUNA_ID + " = " + id, null);
+
+            if (cursor.moveToFirst()) do {
+                local = new Local();
+                local.setId(cursor.getLong(cursor.getColumnIndex(COLUNA_ID)));
+                local.setEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_ENDERECO)));
+                local.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
+                local.setLatLng(new LatLng((cursor.getDouble(cursor.getColumnIndex(COLUNA_LATITUDE))), (cursor.getDouble(cursor.getColumnIndex(COLUNA_LONGITUDE)))));
+                local.setDataDoCheckin(cursor.getLong(cursor.getColumnIndex(COLUNA_DATA_CHECKIN)));
+            } while (cursor.moveToNext());
+            cursor.close();
+            database.close();
+            return local;
+        } catch (Exception e) {
+            if (cursor != null) cursor.close();
+            database.close();
+            throw e;
+        }
+    }
 
     @Override
     public boolean deleteLocal(long id) {
